@@ -1,0 +1,346 @@
+
+/* Professional Medical UI CSS */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    background: #ffffff;
+    color: #1a1a2e;
+    line-height: 1.6;
+}
+
+/* Professional Navbar */
+.navbar {
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    padding: 1rem 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0ea5e9;
+    letter-spacing: -0.5px;
+}
+
+.navbar-brand i {
+    color: #0ea5e9;
+    margin-right: 8px;
+}
+
+.nav-link {
+    color: #4b5563;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    margin: 0 0.25rem;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: #0ea5e9;
+    background: #f0f9ff;
+    border-radius: 8px;
+}
+
+/* Main Container */
+.main-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+    min-height: calc(100vh - 70px);
+}
+
+/* Professional Cards */
+.card {
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    transition: all 0.2s ease;
+    background: #ffffff;
+    margin-bottom: 1.5rem;
+}
+
+.card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+}
+
+.card-header {
+    background: #ffffff;
+    border-bottom: 2px solid #f3f4f6;
+    padding: 1.25rem 1.5rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #1f2937;
+    border-radius: 12px 12px 0 0;
+}
+
+.card-header i {
+    color: #0ea5e9;
+    margin-right: 8px;
+}
+
+/* Symptom Badges */
+.symptom-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    margin: 0.25rem;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    color: #4b5563;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.symptom-badge:hover {
+    background: #f3f4f6;
+    border-color: #0ea5e9;
+    transform: translateY(-1px);
+}
+
+.symptom-badge.selected {
+    background: #0ea5e9;
+    color: white;
+    border-color: #0ea5e9;
+}
+
+/* Form Controls */
+.form-label {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.form-select, .form-control {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+}
+
+.form-select:focus, .form-control:focus {
+    border-color: #0ea5e9;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+}
+
+/* Professional Button */
+.btn-primary {
+    background: #0ea5e9;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+    background: #0284c7;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+}
+
+.btn-outline-primary {
+    border: 1px solid #0ea5e9;
+    color: #0ea5e9;
+    background: transparent;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    border-radius: 8px;
+}
+
+.btn-outline-primary:hover {
+    background: #0ea5e9;
+    color: white;
+}
+
+/* Diagnosis Results */
+.diagnosis-card {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border-left: 4px solid #0ea5e9;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Metric Cards */
+.metric-card {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.metric-card:hover {
+    background: #ffffff;
+    border-color: #0ea5e9;
+}
+
+.metric-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0ea5e9;
+}
+
+.metric-label {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-top: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Fact Card */
+.fact-card {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border-radius: 10px;
+    padding: 1rem;
+    color: #92400e;
+    font-size: 0.875rem;
+    border-left: 3px solid #f59e0b;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255,255,255,0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+    color: #0ea5e9;
+}
+
+/* Image Preview */
+.image-preview {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-top: 1rem;
+    border: 1px solid #e5e7eb;
+}
+
+/* Alert Styles */
+.alert-info {
+    background: #f0f9ff;
+    border: 1px solid #bae6fd;
+    color: #0369a1;
+    border-radius: 8px;
+}
+
+/* Tabs */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* History Items */
+.history-item {
+    border-left: 3px solid #0ea5e9;
+    background: #f9fafb;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.history-item:hover {
+    background: #f3f4f6;
+    transform: translateX(5px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .main-container {
+        padding: 1rem;
+    }
+    
+    .card-header {
+        padding: 1rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+/* Badge */
+.badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #0ea5e9;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #0284c7;
+}

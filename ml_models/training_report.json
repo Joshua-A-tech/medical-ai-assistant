@@ -1,0 +1,21 @@
+{
+  "timestamp": "2026-05-18T06:03:45.982627",
+  "model_type": "Gradient Boosting",
+  "accuracy": 0.9775,
+  "features_count": 41,
+  "diseases_count": 10,
+  "diseases": [
+    "Allergic Rhinitis",
+    "Bronchitis",
+    "COVID-19",
+    "Common Cold",
+    "Gastroenteritis",
+    "Influenza",
+    "Migraine",
+    "Pneumonia",
+    "Sinusitis",
+    "Strep Throat"
+  ],
+  "cv_mean": 0.9487500000000001,
+  "cv_std": 0.01128466880329238
+}
