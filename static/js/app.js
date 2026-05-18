@@ -1,10 +1,12 @@
+// Medical AI Assistant - Complete Application
 
 const MedicalApp = {
     selectedSymptoms: new Set(),
     selectedMedications: [],
     
+    // Initialize app
     init() {
-        console.log('Medical App Starting...');
+        console.log('Medical App Initializing...');
         this.loadSymptoms();
         this.loadStats();
         this.loadMedicalFact();
@@ -15,13 +17,16 @@ const MedicalApp = {
     },
     
     setupEventListeners() {
+        // Tab switching
         document.querySelectorAll('[data-tab]').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
-                this.switchTab(link.getAttribute('data-tab'));
+                const tabName = link.getAttribute('data-tab');
+                this.switchTab(tabName);
             });
         });
         
+        // Disease search
         const searchInput = document.getElementById('disease-search');
         if (searchInput) {
             searchInput.addEventListener('input', (e) => {
@@ -29,6 +34,7 @@ const MedicalApp = {
             });
         }
         
+        // Image preview
         const imageInput = document.getElementById('image-input');
         if (imageInput) {
             imageInput.addEventListener('change', (e) => {
@@ -41,11 +47,24 @@ const MedicalApp = {
         document.querySelectorAll('.tab-content').forEach(tab => {
             tab.style.display = 'none';
         });
-        const selectedTab = document.getElementById(tabName + '-tab');
-        if (selectedTab) selectedTab.style.display = 'block';
+        
+        const selectedTab = document.getElementById(`${tabName}-tab`);
+        if (selectedTab) {
+            selectedTab.style.display = 'block';
+        }
+        
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+        });
+        
+        const activeLink = document.querySelector(`[data-tab="${tabName}"]`);
+        if (activeLink) {
+            activeLink.classList.add('active');
+        }
         
         if (tabName === 'appointments') this.loadAppointments();
         if (tabName === 'history') this.loadConsultationHistory();
+        if (tabName === 'diseases') this.loadDiseases();
     },
     
     showLoading() {
@@ -64,7 +83,7 @@ const MedicalApp = {
             reader.onload = (e) => {
                 const preview = document.getElementById('image-preview');
                 if (preview) {
-                    preview.innerHTML = '<img src="' + e.target.result + '" style="max-width:100%; margin-top:10px;">';
+                    preview.innerHTML = `<img src="${e.target.result}" style="max-width:100%; margin-top:10px; border-radius:8px;">`;
                 }
             };
             reader.readAsDataURL(file);
@@ -77,13 +96,13 @@ const MedicalApp = {
             const data = await response.json();
             const container = document.getElementById('symptoms-container');
             if (container) {
-                let html = '';
-                for (let s of data.symptoms) {
-                    html += '<span class="symptom-badge" onclick="medicalApp.toggleSymptom(\'' + s + '\')">' + s + '</span>';
-                }
-                container.innerHTML = html;
+                container.innerHTML = data.symptoms.map(s => 
+                    `<span class="symptom-badge" onclick="window.medicalApp.toggleSymptom('${s}')">${s}</span>`
+                ).join('');
             }
-        } catch(e) { console.error(e); }
+        } catch (error) {
+            console.error('Error loading symptoms:', error);
+        }
     },
     
     toggleSymptom(symptom) {
@@ -110,7 +129,7 @@ const MedicalApp = {
         
         this.showLoading();
         
-        const data = {
+        const requestData = {
             symptoms: Array.from(this.selectedSymptoms),
             age_group: document.getElementById('age-group').value,
             duration: document.getElementById('duration').value,
@@ -121,74 +140,109 @@ const MedicalApp = {
             const response = await fetch('/api/diagnose', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
+                body: JSON.stringify(requestData)
             });
+            
             const result = await response.json();
             this.displayDiagnosis(result);
-            this.loadStats();
-            this.loadConsultationHistory();
-        } catch(e) { alert('Error'); }
-        finally { this.hideLoading(); }
+            await this.loadStats();
+            await this.loadConsultationHistory();
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error performing diagnosis');
+        } finally {
+            this.hideLoading();
+        }
     },
     
     displayDiagnosis(result) {
-        const p = result.primary_diagnosis;
-        const html = '<div style="background:#e0f2fe; padding:20px; border-radius:10px; margin-top:20px;">' +
-            '<h3>Primary Diagnosis: ' + p.disease + '</h3>' +
-            '<p><strong>Match:</strong> ' + p.match_percentage + '%</p>' +
-            '<p><strong>Severity:</strong> ' + p.severity + '</p>' +
-            '<p><strong>Duration:</strong> ' + p.duration + '</p>' +
-            '<p><strong>Recommendation:</strong> ' + p.recommendation + '</p>' +
-            '<p><strong>When to see doctor:</strong> ' + p.when_to_see_doctor + '</p>' +
-            '<p><strong>Prevention:</strong> ' + p.prevention + '</p>' +
-            '</div>';
+        const primary = result.primary_diagnosis;
+        const html = `
+            <div class="diagnosis-card">
+                <h3>🎯 Primary Diagnosis: ${primary.disease}</h3>
+                <p><strong>Match Confidence:</strong> ${primary.match_percentage}%</p>
+                <p><strong>Matched Symptoms:</strong> ${primary.matched_symptoms.join(', ')}</p>
+                <p><strong>Severity:</strong> ${primary.severity}</p>
+                <p><strong>Expected Duration:</strong> ${primary.duration}</p>
+                <p><strong>Recommendation:</strong> ${primary.recommendation}</p>
+                <p><strong>⚠️ When to see doctor:</strong> ${primary.when_to_see_doctor}</p>
+                <p><strong>🛡️ Prevention:</strong> ${primary.prevention}</p>
+            </div>
+        `;
         
         const container = document.getElementById('diagnosis-result');
         if (container) {
             container.innerHTML = html;
             container.style.display = 'block';
+            container.scrollIntoView({ behavior: 'smooth' });
         }
     },
     
     async analyzeImage() {
-        const file = document.getElementById('image-input').files[0];
-        if (!file) { alert('Please select an image'); return; }
+        const fileInput = document.getElementById('image-input');
+        const file = fileInput?.files[0];
+        
+        if (!file) {
+            alert('Please select an image first');
+            return;
+        }
         
         this.showLoading();
+        
         const formData = new FormData();
         formData.append('file', file);
         
         try {
-            const response = await fetch('/api/analyze-image', { method: 'POST', body: formData });
+            const response = await fetch('/api/analyze-image', {
+                method: 'POST',
+                body: formData
+            });
+            
             const result = await response.json();
-            let html = '<div class="alert alert-info"><h5>Analysis Results</h5>' +
-                '<p>Quality: ' + result.quality + '</p>' +
-                '<p>Brightness: ' + result.brightness + '</p>' +
-                '<p>Contrast: ' + result.contrast + '</p>' +
-                '<p>Redness: ' + result.redness + '%</p>';
-            if (result.recommendations) {
-                for (let r of result.recommendations) {
-                    html += '<p>⚠️ ' + r + '</p>';
-                }
+            
+            let html = `
+                <div class="alert alert-info">
+                    <h5>Analysis Results</h5>
+                    <p><strong>Quality:</strong> ${result.quality}</p>
+                    <p><strong>Brightness:</strong> ${result.brightness}</p>
+                    <p><strong>Contrast:</strong> ${result.contrast}</p>
+                    <p><strong>Redness:</strong> ${result.redness}%</p>
+                    <p><strong>Detail Level:</strong> ${result.edge_density}%</p>
+            `;
+            if (result.recommendations && result.recommendations.length > 0) {
+                html += '<p><strong>Recommendations:</strong></p><ul>';
+                result.recommendations.forEach(r => {
+                    html += `<li>${r}</li>`;
+                });
+                html += '</ul>';
             }
-            html += '</div>';
+            html += `</div>`;
+            
             document.getElementById('analysis-result').innerHTML = html;
-        } catch(e) { alert('Error'); }
-        finally { this.hideLoading(); }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error analyzing image');
+        } finally {
+            this.hideLoading();
+        }
     },
     
     async loadStats() {
         try {
             const response = await fetch('/api/stats');
             const stats = await response.json();
-            const html = '<div style="text-align:center">' +
-                '<h3>' + stats.total_diseases + '</h3><p>Diseases</p>' +
-                '<h3>' + stats.total_symptoms + '</h3><p>Symptoms</p>' +
-                '<h3>' + (stats.consultations || 0) + '</h3><p>Consultations</p>' +
-                '</div>';
+            const html = `
+                <div class="stats-grid">
+                    <div class="metric-card"><div class="metric-value">${stats.total_diseases}</div><div class="metric-label">Diseases</div></div>
+                    <div class="metric-card"><div class="metric-value">${stats.total_symptoms}</div><div class="metric-label">Symptoms</div></div>
+                    <div class="metric-card"><div class="metric-value">${stats.consultations || 0}</div><div class="metric-label">Consultations</div></div>
+                </div>
+            `;
             const container = document.getElementById('stats-container');
             if (container) container.innerHTML = html;
-        } catch(e) { console.error(e); }
+        } catch (error) {
+            console.error('Error loading stats:', error);
+        }
     },
     
     async loadMedicalFact() {
@@ -197,49 +251,75 @@ const MedicalApp = {
             const data = await response.json();
             const container = document.getElementById('fact-container');
             if (container) {
-                container.innerHTML = '<div class="alert alert-info">💡 ' + data.fact + '</div>';
+                container.innerHTML = `<div class="fact-card"><i class="fas fa-lightbulb"></i> ${data.fact}</div>`;
             }
-        } catch(e) { console.error(e); }
+        } catch (error) {
+            console.error('Error loading fact:', error);
+        }
     },
     
     async loadDiseases(searchTerm = '') {
         try {
             const response = await fetch('/api/diseases');
             const data = await response.json();
+            
             let diseases = data.diseases || [];
             if (searchTerm) {
                 diseases = diseases.filter(d => d.toLowerCase().includes(searchTerm.toLowerCase()));
             }
+            
             const container = document.getElementById('diseases-list');
             if (!container) return;
+            
             if (diseases.length === 0) {
-                container.innerHTML = '<p>No diseases found</p>';
+                container.innerHTML = '<p class="text-muted">No diseases found</p>';
                 return;
             }
-            let html = '';
-            for (let disease of diseases) {
+            
+            container.innerHTML = diseases.map(disease => {
                 const d = data.details[disease];
-                html += '<div class="card mb-2"><div class="card-body">' +
-                    '<h5>' + disease + '</h5>' +
-                    '<p><strong>Severity:</strong> ' + d.severity + '</p>' +
-                    '<p><strong>Symptoms:</strong> ' + d.symptoms.slice(0, 5).join(', ') + '</p>' +
-                    '<button class="btn btn-sm btn-primary" onclick="medicalApp.showDiseaseDetails(\'' + disease + '\')">View Details</button>' +
-                    '</div></div>';
-            }
-            container.innerHTML = html;
-        } catch(e) { console.error(e); }
+                return `
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <h5>${disease}</h5>
+                            <p><strong>Severity:</strong> ${d.severity}</p>
+                            <p><strong>Symptoms:</strong> ${d.symptoms.slice(0, 5).join(', ')}</p>
+                            <button class="btn btn-sm btn-primary" onclick="window.medicalApp.showDiseaseDetails('${disease}')">View Details</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        } catch (error) {
+            console.error('Error loading diseases:', error);
+        }
     },
     
     async showDiseaseDetails(diseaseName) {
         try {
-            const response = await fetch('/api/disease/' + diseaseName);
+            const response = await fetch(`/api/disease/${diseaseName}`);
             const data = await response.json();
             const d = data.details;
-            alert(diseaseName + '\n\nSeverity: ' + d.severity + '\nDuration: ' + d.duration +
-                '\n\nSymptoms:\n' + d.symptoms.join(', ') +
-                '\n\nRecommendation:\n' + d.recommendation +
-                '\n\nWhen to see doctor:\n' + d.when_to_see_doctor);
-        } catch(e) { alert('Error loading details'); }
+            alert(`
+${diseaseName}
+
+Severity: ${d.severity}
+Duration: ${d.duration}
+
+Symptoms:
+${d.symptoms.join(', ')}
+
+Recommendation:
+${d.recommendation}
+
+When to see doctor:
+${d.when_to_see_doctor}
+
+Prevention:
+${d.prevention}
+            `);
+        } catch (error) {
+            alert('Error loading disease details');
+        }
     },
     
     async loadConsultationHistory() {
@@ -247,25 +327,103 @@ const MedicalApp = {
             const response = await fetch('/api/consultations');
             const data = await response.json();
             const consultations = data.consultations || [];
+            
             const container = document.getElementById('history-list');
             if (!container) return;
+            
             if (consultations.length === 0) {
-                container.innerHTML = '<p>No consultations yet</p>';
+                container.innerHTML = '<p class="text-muted">No consultations yet</p>';
                 return;
             }
-            let html = '';
-            for (let c of consultations) {
-                html += '<div class="card mb-2"><div class="card-body">' +
-                    '<h6>' + c.diagnosis + '</h6>' +
-                    '<p>' + c.timestamp + '</p>' +
-                    '<p>Symptoms: ' + c.symptoms.join(', ') + '</p>' +
-                    '<span class="badge bg-info">' + c.severity + '</span>' +
-                    '</div></div>';
-            }
-            container.innerHTML = html;
-        } catch(e) { console.error(e); }
+            
+            container.innerHTML = consultations.map(c => `
+                <div class="history-item">
+                    <strong>${c.diagnosis}</strong>
+                    <small class="text-muted float-end">${c.timestamp}</small>
+                    <p class="mt-2"><strong>Symptoms:</strong> ${c.symptoms.join(', ')}</p>
+                    <span class="badge bg-info">${c.severity}</span>
+                </div>
+            `).join('');
+        } catch (error) {
+            console.error('Error loading history:', error);
+        }
     },
     
+    // Medication Functions
+    addMedication() {
+        const input = document.getElementById('medication-input');
+        const medication = input?.value.trim();
+        
+        if (medication && !this.selectedMedications.includes(medication)) {
+            this.selectedMedications.push(medication);
+            this.updateMedicationsDisplay();
+            input.value = '';
+        }
+    },
+    
+    removeMedication(medication) {
+        this.selectedMedications = this.selectedMedications.filter(m => m !== medication);
+        this.updateMedicationsDisplay();
+    },
+    
+    updateMedicationsDisplay() {
+        const container = document.getElementById('selected-medications');
+        if (container) {
+            container.innerHTML = this.selectedMedications.map(med => `
+                <span class="badge bg-primary p-2">
+                    ${med}
+                    <i class="fas fa-times-circle ms-2" style="cursor:pointer;" onclick="window.medicalApp.removeMedication('${med}')"></i>
+                </span>
+            `).join('');
+        }
+    },
+    
+    async checkMedicationInteractions() {
+        if (this.selectedMedications.length < 2) {
+            alert('Please add at least 2 medications to check interactions');
+            return;
+        }
+        
+        this.showLoading();
+        
+        try {
+            const medicationsParam = this.selectedMedications.join(',');
+            const response = await fetch(`/api/check-interactions?medications=${encodeURIComponent(medicationsParam)}`);
+            
+            if (!response.ok) throw new Error('Failed to check interactions');
+            
+            const result = await response.json();
+            this.displayInteractions(result.interactions);
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error checking interactions');
+        } finally {
+            this.hideLoading();
+        }
+    },
+    
+    displayInteractions(interactions) {
+        const container = document.getElementById('interaction-results');
+        if (!container) return;
+        
+        if (interactions.length === 0) {
+            container.innerHTML = '<div class="alert alert-success mt-3">✅ No interactions found between your medications.</div>';
+        } else {
+            container.innerHTML = `
+                <div class="alert alert-warning mt-3">
+                    <h6>⚠️ Interactions Found:</h6>
+                    ${interactions.map(i => `
+                        <div class="mt-2 p-2 bg-light rounded">
+                            <strong>${i.medications.join(' + ')}</strong>
+                            <p class="text-danger mb-0 small">${i.warning}</p>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+    },
+    
+    // Appointment Functions
     async scheduleAppointment() {
         const doctor_name = document.getElementById('doctor-name')?.value;
         const specialty = document.getElementById('specialty')?.value;
@@ -273,7 +431,7 @@ const MedicalApp = {
         const notes = document.getElementById('appointment-notes')?.value;
         
         if (!doctor_name || !specialty || !appointment_date) {
-            alert('Please fill all fields');
+            alert('Please fill all required fields');
             return;
         }
         
@@ -287,16 +445,19 @@ const MedicalApp = {
             });
             
             if (response.ok) {
-                alert('Appointment scheduled successfully!');
+                alert('✅ Appointment scheduled successfully!');
                 document.getElementById('doctor-name').value = '';
                 document.getElementById('appointment-date').value = '';
                 document.getElementById('appointment-notes').value = '';
-                this.loadAppointments();
+                await this.loadAppointments();
             } else {
                 alert('Failed to schedule appointment');
             }
-        } catch(e) { alert('Error'); }
-        finally { this.hideLoading(); }
+        } catch (error) {
+            alert('Error scheduling appointment');
+        } finally {
+            this.hideLoading();
+        }
     },
     
     async loadAppointments() {
@@ -304,34 +465,52 @@ const MedicalApp = {
             const response = await fetch('/api/appointments');
             const data = await response.json();
             const appointments = data.appointments || [];
+            
             const container = document.getElementById('appointments-list');
             if (!container) return;
+            
             if (appointments.length === 0) {
-                container.innerHTML = '<p>No appointments scheduled</p>';
+                container.innerHTML = '<p class="text-muted">No appointments scheduled</p>';
                 return;
             }
-            let html = '';
-            for (let a of appointments) {
-                html += '<div class="card mb-2"><div class="card-body">' +
-                    '<h6>Dr. ' + a.doctor_name + ' - ' + a.specialty + '</h6>' +
-                    '<p>📅 ' + new Date(a.appointment_date).toLocaleString() + '</p>' +
-                    (a.notes ? '<p>📝 ' + a.notes + '</p>' : '') +
-                    '<span class="badge bg-success">' + a.status + '</span>' +
-                    '</div></div>';
-            }
-            container.innerHTML = html;
-        } catch(e) { console.error(e); }
+            
+            container.innerHTML = appointments.map(a => `
+                <div class="history-item">
+                    <strong>Dr. ${a.doctor_name}</strong> - ${a.specialty}
+                    <br>
+                    <small>📅 ${new Date(a.appointment_date).toLocaleString()}</small>
+                    ${a.notes ? `<p class="mt-2 small">📝 ${a.notes}</p>` : ''}
+                    <span class="badge bg-success float-end">${a.status}</span>
+                </div>
+            `).join('');
+        } catch (error) {
+            console.error('Error loading appointments:', error);
+        }
+    },
+    
+    cancelAppointment(appointmentId) {
+        if (confirm('Are you sure you want to cancel this appointment?')) {
+            alert('Cancellation feature coming soon');
+        }
     }
 };
 
 // Initialize
 window.medicalApp = MedicalApp;
-MedicalApp.init();
 
-// Global functions
+// Auto-initialize when DOM loads
+document.addEventListener('DOMContentLoaded', () => {
+    MedicalApp.init();
+});
+
+// Global functions for inline onclick handlers
 window.toggleSymptom = (s) => MedicalApp.toggleSymptom(s);
 window.performDiagnosis = () => MedicalApp.performDiagnosis();
 window.analyzeImage = () => MedicalApp.analyzeImage();
+window.addMedication = () => MedicalApp.addMedication();
+window.removeMedication = (m) => MedicalApp.removeMedication(m);
+window.checkMedicationInteractions = () => MedicalApp.checkMedicationInteractions();
 window.scheduleAppointment = () => MedicalApp.scheduleAppointment();
 window.loadAppointments = () => MedicalApp.loadAppointments();
 window.showDiseaseDetails = (d) => MedicalApp.showDiseaseDetails(d);
+window.cancelAppointment = (id) => MedicalApp.cancelAppointment(id);
