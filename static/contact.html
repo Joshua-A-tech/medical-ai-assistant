@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - MediAI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f7fa; }
+        .navbar { background: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.08); padding: 1rem 0; }
+        .navbar-brand { font-size: 1.5rem; font-weight: 700; color: #0ea5e9; }
+        .contact-hero { background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%); color: white; padding: 60px 0; text-align: center; }
+        .contact-content { background: white; border-radius: 15px; padding: 40px; margin: -30px 20px 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .contact-info-card { text-align: center; padding: 30px; background: #f8fafc; border-radius: 15px; height: 100%; transition: transform 0.3s ease; }
+        .contact-info-card:hover { transform: translateY(-5px); }
+        .contact-icon { width: 60px; height: 60px; background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+        .contact-icon i { font-size: 25px; color: white; }
+        .form-control, .form-select { border-radius: 10px; padding: 12px; border: 1px solid #e5e7eb; }
+        .form-control:focus, .form-select:focus { border-color: #0ea5e9; box-shadow: 0 0 0 3px rgba(14,165,233,0.1); }
+        .btn-submit { background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%); color: white; border: none; padding: 12px 30px; border-radius: 10px; font-weight: 600; width: 100%; }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(14,165,233,0.3); }
+        .footer { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: white; padding: 40px 0 20px; margin-top: 40px; }
+        @media (max-width: 768px) { .contact-content { padding: 20px; margin: -20px 10px 20px; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="/"><i class="fas fa-stethoscope"></i> MediAI</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/static/about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/static/privacy.html">Privacy</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/static/terms.html">Terms</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/static/faq.html">FAQ</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/static/contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="contact-hero">
+        <div class="container">
+            <h1><i class="fas fa-envelope"></i> Contact Us</h1>
+            <p>Get in touch with the MediAI team</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="contact-content">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="contact-info-card">
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <h5>Email Us</h5>
+                        <p>support@mediai.com<br>privacy@mediai.com</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="contact-info-card">
+                        <div class="contact-icon"><i class="fab fa-github"></i></div>
+                        <h5>GitHub</h5>
+                        <p>github.com/Joshua-A-tech</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="contact-info-card">
+                        <div class="contact-icon"><i class="fas fa-clock"></i></div>
+                        <h5>Response Time</h5>
+                        <p>Within 24-48 hours</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <h4><i class="fas fa-paper-plane"></i> Send us a message</h4>
+                <p class="text-muted">We'll get back to you as soon as possible</p>
+                <form id="contactForm">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Name *</label>
+                            <input type="text" class="form-control" id="name" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Email *</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Subject *</label>
+                        <select class="form-select" id="subject">
+                            <option>General Inquiry</option>
+                            <option>Technical Support</option>
+                            <option>Privacy Concern</option>
+                            <option>Medical Question</option>
+                            <option>Feedback</option>
+                            <option>Partnership</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Message *</label>
+                        <textarea class="form-control" id="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+                </form>
+                <div id="formResponse" class="mt-3"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4"><h5><i class="fas fa-stethoscope"></i> MediAI</h5><p>AI-Powered Medical Diagnosis Assistant</p></div>
+                <div class="col-md-4"><h5>Quick Links</h5><ul class="list-unstyled"><li><a href="/">Home</a></li><li><a href="/static/about.html">About</a></li><li><a href="/static/contact.html">Contact</a></li></ul></div>
+                <div class="col-md-4"><h5>Legal</h5><ul class="list-unstyled"><li><a href="/static/privacy.html">Privacy Policy</a></li><li><a href="/static/terms.html">Terms of Service</a></li></ul></div>
+            </div>
+            <div class="copyright text-center"><p>&copy; 2026 MediAI. All rights reserved.</p></div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value
+            };
+            
+            const responseDiv = document.getElementById('formResponse');
+            responseDiv.innerHTML = '<div class="alert alert-info">Sending message...</div>';
+            
+            // Simulate sending (you can connect to actual backend)
+            setTimeout(() => {
+                responseDiv.innerHTML = '<div class="alert alert-success">✅ Message sent successfully! We\'ll respond within 24-48 hours.</div>';
+                document.getElementById('contactForm').reset();
+            }, 1500);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>About MediAI - Medical Diagnosis Assistant</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f7fa; }
+        
+        /* Navbar */
+        .navbar {
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            padding: 1rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .navbar-brand { font-size: 1.5rem; font-weight: 700; color: #0ea5e9; }
+        .navbar-brand i { color: #0ea5e9; margin-right: 8px; }
+        .nav-link { color: #4b5563; font-weight: 500; transition: all 0.2s ease; }
+        .nav-link:hover, .nav-link.active { color: #0ea5e9; background: #f0f9ff; border-radius: 8px; }
+        
+        /* About Hero Section */
+        .about-hero {
+            background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+        .about-hero h1 { font-size: 3rem; margin-bottom: 20px; }
+        .about-hero p { font-size: 1.2rem; opacity: 0.95; max-width: 700px; margin: 0 auto; }
+        
+        /* Content Sections */
+        .container-custom { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .section { padding: 60px 0; border-bottom: 1px solid #e5e7eb; }
+        .section-title { text-align: center; margin-bottom: 40px; }
+        .section-title h2 { font-size: 2rem; color: #1f2937; margin-bottom: 15px; }
+        .section-title p { color: #6b7280; font-size: 1.1rem; }
+        
+        /* Cards */
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+        .feature-icon i { font-size: 30px; color: white; }
+        .feature-card h3 { font-size: 1.3rem; margin-bottom: 15px; color: #1f2937; }
+        .feature-card p { color: #6b7280; line-height: 1.6; }
+        
+        /* Team Section */
+        .team-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            height: 100%;
+        }
+        .team-avatar {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+        .team-avatar i { font-size: 50px; color: white; }
+        .team-card h4 { margin-bottom: 5px; color: #1f2937; }
+        .team-card .role { color: #0ea5e9; font-weight: 600; margin-bottom: 10px; }
+        .team-card .bio { color: #6b7280; font-size: 0.9rem; }
+        
+        /* Tech Stack */
+        .tech-badge {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            background: white;
+            border-radius: 30px;
+            font-weight: 500;
+            color: #1f2937;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .tech-badge i { margin-right: 8px; color: #0ea5e9; }
+        
+        /* Stats */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            text-align: center;
+        }
+        .stat-box {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #0ea5e9;
+        }
+        .stat-label {
+            color: #6b7280;
+            margin-top: 10px;
+        }
+        
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #ffffff;
+            padding: 40px 0 20px;
+            margin-top: 60px;
+        }
+        .footer a { color: #cbd5e1; text-decoration: none; }
+        .footer a:hover { color: #0ea5e9; }
+        .copyright { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 30px; }
+        
+        @media (max-width: 768px) {
+            .about-hero h1 { font-size: 2rem; }
+            .stats-container { grid-template-columns: repeat(2, 1fr); }
+            .section { padding: 40px 0; }
+        }
+        @media (max-width: 480px) {
+            .stats-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-stethoscope"></i> MediAI
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/static/about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/static/admin.html">Admin</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="about-hero">
+        <div class="container-custom">
+            <h1><i class="fas fa-heartbeat"></i> About MediAI</h1>
+            <p>Revolutionizing healthcare with Artificial Intelligence - Making medical insights accessible to everyone.</p>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="section">
+        <div class="container-custom">
+            <div class="section-title">
+                <h2>Our Mission</h2>
+                <p>Empowering individuals with AI-driven medical insights</p>
+            </div>
+            <div class="row" style="display: flex; gap: 20px; justify-content: center;">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-robot"></i></div>
+                        <h3>AI-Powered Diagnosis</h3>
+                        <p>97.8% accurate ML model trained on real medical data for reliable symptom analysis.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+                        <h3>Privacy First</h3>
+                        <p>Your health data is encrypted and never shared. Complete confidentiality guaranteed.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-globe"></i></div>
+                        <h3>Accessible Healthcare</h3>
+                        <p>Free medical insights available to everyone, anywhere, anytime.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Features -->
+    <section class="section" style="background: #f8fafc;">
+        <div class="container-custom">
+            <div class="section-title">
+                <h2>What We Offer</h2>
+                <p>Comprehensive healthcare tools at your fingertips</p>
+            </div>
+            <div class="row" style="display: flex; flex-wrap: wrap; gap: 20px;">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <i class="fas fa-notes-medical fa-3x" style="color: #0ea5e9; margin-bottom: 15px;"></i>
+                        <h3>Symptom Checker</h3>
+                        <p>AI-powered analysis of 60+ symptoms to identify possible conditions with high accuracy.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <i class="fas fa-camera fa-3x" style="color: #0ea5e9; margin-bottom: 15px;"></i>
+                        <h3>Medical Imaging</h3>
+                        <p>Upload and analyze medical images for quality assessment and inflammation detection.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <i class="fas fa-pills fa-3x" style="color: #0ea5e9; margin-bottom: 15px;"></i>
+                        <h3>Medication Checker</h3>
+                        <p>Check dangerous drug interactions with our 150+ medication database.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <i class="fas fa-calendar-check fa-3x" style="color: #0ea5e9; margin-bottom: 15px;"></i>
+                        <h3>Appointment Scheduling</h3>
+                        <p>Book and manage doctor appointments directly through the platform.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <i class="fas fa-heartbeat fa-3x" style="color: #0ea5e9; margin-bottom: 15px;"></i>
+                        <h3>Health Checkup</h3>
+                        <p>Calculate BMI, BMR, and get personalized health recommendations.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <i class="fas fa-chart-line fa-3x" style="color: #0ea5e9; margin-bottom: 15px;"></i>
+                        <h3>Consultation History</h3>
+                        <p>Track all your medical consultations and health progress over time.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Stack -->
+    <section class="section">
+        <div class="container-custom">
+            <div class="section-title">
+                <h2>Technology Stack</h2>
+                <p>Built with cutting-edge technologies</p>
+            </div>
+            <div style="text-align: center;">
+                <span class="tech-badge"><i class="fab fa-python"></i> Python 3.11</span>
+                <span class="tech-badge"><i class="fas fa-rocket"></i> FastAPI</span>
+                <span class="tech-badge"><i class="fas fa-brain"></i> Scikit-learn</span>
+                <span class="tech-badge"><i class="fas fa-chart-line"></i> Random Forest (97.8% accuracy)</span>
+                <span class="tech-badge"><i class="fas fa-camera"></i> OpenCV</span>
+                <span class="tech-badge"><i class="fab fa-js"></i> JavaScript</span>
+                <span class="tech-badge"><i class="fab fa-bootstrap"></i> Bootstrap 5</span>
+                <span class="tech-badge"><i class="fas fa-database"></i> SQLite / PostgreSQL</span>
+                <span class="tech-badge"><i class="fas fa-cloud"></i> Render / Railway</span>
+                <span class="tech-badge"><i class="fas fa-chart-simple"></i> Pandas & NumPy</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics -->
+    <section class="section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+        <div class="container-custom">
+            <div class="stats-container">
+                <div class="stat-box" style="background: rgba(255,255,255,0.1); color: white;">
+                    <div class="stat-number" style="color: white;">10+</div>
+                    <div class="stat-label">Diseases Analyzed</div>
+                </div>
+                <div class="stat-box" style="background: rgba(255,255,255,0.1); color: white;">
+                    <div class="stat-number" style="color: white;">60+</div>
+                    <div class="stat-label">Symptoms Covered</div>
+                </div>
+                <div class="stat-box" style="background: rgba(255,255,255,0.1); color: white;">
+                    <div class="stat-number" style="color: white;">97.8%</div>
+                    <div class="stat-label">ML Model Accuracy</div>
+                </div>
+                <div class="stat-box" style="background: rgba(255,255,255,0.1); color: white;">
+                    <div class="stat-number" style="color: white;">150+</div>
+                    <div class="stat-label">Medication Interactions</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Medical Disclaimer -->
+    <section class="section">
+        <div class="container-custom">
+            <div class="alert alert-warning" style="border-radius: 15px; border-left: 4px solid #f59e0b;">
+                <h4><i class="fas fa-exclamation-triangle"></i> Medical Disclaimer</h4>
+                <p class="mb-0">MediAI is an AI-powered educational tool designed to assist with preliminary health insights. It is NOT a substitute for professional medical advice, diagnosis, or treatment. Always consult qualified healthcare providers for medical concerns. In emergencies, contact your local emergency services immediately.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container-custom">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5><i class="fas fa-stethoscope"></i> MediAI</h5>
+                    <p>AI-Powered Medical Diagnosis Assistant with 97.8% accuracy. Making healthcare accessible to everyone.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/static/about.html">About Us</a></li>
+                        <li><a href="/static/admin.html">Admin Dashboard</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Contact</h5>
+                    <p><i class="fas fa-envelope"></i> support@mediai.com</p>
+                    <p><i class="fas fa-github"></i> github.com/Joshua-A-tech</p>
+                </div>
+            </div>
+            <div class="copyright text-center">
+                <p>&copy; 2026 MediAI - Medical Diagnosis Assistant. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

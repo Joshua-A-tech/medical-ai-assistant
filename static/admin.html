@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - MediAI Subscribers</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .admin-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .card-header {
+            background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
+            color: white;
+            padding: 20px;
+            font-weight: bold;
+        }
+        .stats-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+        .stats-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+        }
+        th {
+            background: #f8f9fa;
+            padding: 12px;
+        }
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .btn-export {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .btn-export:hover {
+            background: #059669;
+        }
+        .btn-refresh {
+            background: #0ea5e9;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="admin-card">
+            <div class="card-header">
+                <h2><i class="fas fa-users"></i> Subscriber Management Dashboard</h2>
+                <p class="mb-0">Manage your newsletter subscribers</p>
+            </div>
+            <div class="card-body p-4">
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <div class="stats-card">
+                            <div class="stats-number" id="totalCount">0</div>
+                            <div>Total Subscribers</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stats-card" style="background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);">
+                            <div class="stats-number" id="newCount">0</div>
+                            <div>New (Last 7 days)</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stats-card" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                            <div class="stats-number" id="activeCount">0</div>
+                            <div>Active Subscribers</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stats-card" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">
+                            <div class="stats-number" id="unsubCount">0</div>
+                            <div>Unsubscribed</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <button class="btn-refresh" onclick="loadSubscribers()">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                    <button class="btn-export" onclick="exportSubscribers()">
+                        <i class="fas fa-download"></i> Export CSV
+                    </button>
+                    <button class="btn-export" onclick="copyEmails()" style="background: #6b7280;">
+                        <i class="fas fa-copy"></i> Copy Emails
+                    </button>
+                </div>
+                
+                <div style="overflow-x: auto;">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Email</th>
+                                <th>Name</th>
+                                <th>Subscribed Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="subscribersTable">
+                            <tr>
+                                <td colspan="6" class="text-center">Loading subscribers...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function loadSubscribers() {
+            try {
+                const response = await fetch('/api/subscribers');
+                const data = await response.json();
+                
+                if (data.success) {
+                    const subscribers = data.subscribers;
+                    const total = data.total;
+                    
+                    // Update stats
+                    document.getElementById('totalCount').textContent = total;
+                    
+                    // Calculate new subscribers (last 7 days)
+                    const now = new Date();
+                    const sevenDaysAgo = new Date(now.setDate(now.getDate() - 7));
+                    const newSubscribers = subscribers.filter(s => new Date(s.subscribed_at) > sevenDaysAgo);
+                    document.getElementById('newCount').textContent = newSubscribers.length;
+                    
+                    const activeSubscribers = subscribers.filter(s => s.status === 'active');
+                    document.getElementById('activeCount').textContent = activeSubscribers.length;
+                    
+                    // Build table
+                    const tbody = document.getElementById('subscribersTable');
+                    if (subscribers.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="6" class="text-center">No subscribers yet</td></tr>';
+                        return;
+                    }
+                    
+                    tbody.innerHTML = subscribers.map((sub, index) => `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td><strong>${sub.email}</strong></td>
+                            <td>${sub.name || 'Anonymous'}</td>
+                            <td>${new Date(sub.subscribed_at).toLocaleString()}</td>
+                            <td><span class="badge bg-success">${sub.status}</span></td>
+                            <td>
+                                <button class="btn btn-sm btn-danger" onclick="unsubscribe('${sub.email}')">
+                                    <i class="fas fa-trash"></i> Remove
+                                </button>
+                            </td>
+                        </tr>
+                    `).join('');
+                }
+            } catch (error) {
+                console.error('Error loading subscribers:', error);
+            }
+        }
+        
+        async function unsubscribe(email) {
+            if (confirm(`Are you sure you want to remove ${email} from the subscriber list?`)) {
+                try {
+                    const response = await fetch(`/api/subscribers/${email}`, {
+                        method: 'DELETE'
+                    });
+                    const result = await response.json();
+                    if (result.success) {
+                        alert('Subscriber removed successfully!');
+                        loadSubscribers();
+                    } else {
+                        alert('Error removing subscriber');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            }
+        }
+        
+        async function exportSubscribers() {
+            window.open('/api/subscribers/export', '_blank');
+        }
+        
+        function copyEmails() {
+            const emails = Array.from(document.querySelectorAll('#subscribersTable td:first-child + td'))
+                .map(td => td.textContent.trim())
+                .filter(email => email && email !== 'No subscribers yet');
+            
+            if (emails.length > 0) {
+                navigator.clipboard.writeText(emails.join(', '));
+                alert(`${emails.length} emails copied to clipboard!`);
+            } else {
+                alert('No emails to copy');
+            }
+        }
+        
+        // Auto refresh every 30 seconds
+        loadSubscribers();
+        setInterval(loadSubscribers, 30000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+drug_name_1,drug_name_2,severity,interaction_type,clinical_effect,mechanism,management,confidence_score
+Warfarin,Aspirin,critical,pharmacodynamic,"Increased bleeding risk","Anti-platelet plus anticoagulant","Avoid combination; monitor INR",95
+Warfarin,Ibuprofen,critical,pharmacodynamic,"Increased GI bleeding","NSAID plus anticoagulant","Use acetaminophen instead",92
+Warfarin,Naproxen,critical,pharmacodynamic,"Increased bleeding risk","NSAID plus anticoagulant","Avoid combination",90
+Warfarin,Amiodarone,critical,pharmacokinetic,"INR increases by 50 percent","CYP2C9 inhibition","Reduce warfarin dose by 30 to 50 percent",94
+Warfarin,Ciprofloxacin,critical,pharmacokinetic,"Increased anticoagulant effect","Antibiotic interaction","Monitor INR frequently",88
+Warfarin,Metronidazole,critical,pharmacokinetic,"Significant INR increase","Antibiotic interaction","Reduce warfarin dose",89
+Warfarin,Fluconazole,critical,pharmacokinetic,"Increased warfarin effect","Azole antifungal","Reduce warfarin dose",91
+Warfarin,Omeprazole,moderate,pharmacokinetic,"May increase INR","PPI interaction","Monitor INR",75
+Warfarin,Simvastatin,moderate,pharmacokinetic,"Increased bleeding risk","Statin interaction","Monitor INR",72
+Warfarin,Vitamin K,critical,pharmacodynamic,"Reverses anticoagulation","Direct reversal","Avoid supplements",96
+Metformin,Insulin,moderate,pharmacodynamic,"Increased hypoglycemia risk","Additive effect","Monitor blood glucose",88
+Metformin,Sulfonylureas,moderate,pharmacodynamic,"Additive hypoglycemia","Oral diabetic combination","Monitor glucose; adjust doses",85
+Metformin,Contrast Dye,critical,pharmacodynamic,"Risk of lactic acidosis","Renal interaction","Stop metformin 48 hours before",90
+Metformin,ACE Inhibitors,moderate,pharmacodynamic,"May increase hypoglycemia","Additive effect","Monitor glucose",70
+Insulin,Beta Blockers,moderate,pharmacodynamic,"Masks hypoglycemia symptoms","Beta blocker effect","Monitor glucose closely",82
+Amiodarone,Digoxin,critical,pharmacokinetic,"Doubles digoxin levels","CYP inhibition","Reduce digoxin dose by 50 percent",93
+Amiodarone,Simvastatin,critical,pharmacokinetic,"Increased myopathy risk","Statin interaction","Limit simvastatin to 20mg",91
+Amiodarone,Warfarin,critical,pharmacodynamic,"INR increases significantly","Multiple mechanisms","Reduce warfarin dose",94
+Digoxin,Furosemide,moderate,pharmacodynamic,"Hypokalemia risk","Electrolyte imbalance","Monitor potassium levels",80
+Digoxin,Amiodarone,critical,pharmacokinetic,"Increases digoxin levels","P-glycoprotein inhibition","Monitor levels closely",93
+Simvastatin,Fibrates,critical,pharmacodynamic,"Increased rhabdomyolysis risk","Muscle toxicity","Avoid combination",89
+Simvastatin,Grapefruit,critical,pharmacokinetic,"5 to 10x increased statin levels","CYP3A4 inhibition","Avoid grapefruit products",95
+Atorvastatin,Grapefruit,moderate,pharmacokinetic,"Increased statin levels","CYP3A4 inhibition","Limit grapefruit intake",72
+Lisinopril,Potassium,critical,pharmacodynamic,"Risk of hyperkalemia","Potassium sparing","Avoid potassium supplements",92
+Lisinopril,NSAIDs,moderate,pharmacodynamic,"Reduced BP control","Prostaglandin inhibition","Monitor blood pressure",75
+Losartan,Potassium,critical,pharmacodynamic,"Severe hyperkalemia risk","ARB interaction","Avoid potassium supplements",91
+SSRIs,MAOIs,critical,pharmacodynamic,"Serotonin syndrome risk","Neurotransmitter interaction","Never combine; 14-day washout",97
+SSRIs,NSAIDs,moderate,pharmacodynamic,"Increased bleeding risk","Serotonin plus antiplatelet","Use with caution",78
+SSRIs,Warfarin,moderate,pharmacodynamic,"INR may increase","Serotonin plus anticoagulant","Monitor INR",74
+Lithium,NSAIDs,critical,pharmacokinetic,"Increases lithium toxicity","Renal interaction","Monitor lithium levels",90
+Lithium,Diuretics,critical,pharmacokinetic,"Significant lithium increase","Renal interaction","Reduce lithium dose",88
+Lithium,ACE Inhibitors,critical,pharmacokinetic,"Increased lithium levels","Renal interaction","Monitor lithium frequently",86
+Benzodiazepines,Opioids,critical,pharmacodynamic,"Respiratory depression risk","CNS depression","Avoid combination",94
+Tramadol,SSRIs,critical,pharmacodynamic,"Serotonin syndrome risk","Serotonergic effect","Monitor for symptoms",86
+Codeine,CYP2D6 Inhibitors,moderate,pharmacokinetic,"Reduced codeine effectiveness","Metabolism issue","Monitor pain relief",78
+Morphine,Benzodiazepines,critical,pharmacodynamic,"Severe respiratory depression","CNS depression","Avoid combination",92
+Oxycodone,Benzodiazepines,critical,pharmacodynamic,"Increased overdose risk","Additive sedation","Avoid combination",91
+Acetaminophen,Alcohol,critical,pharmacodynamic,"Liver damage risk","Hepatotoxicity","Avoid with chronic alcohol use",89
+Aspirin,Ibuprofen,moderate,pharmacodynamic,"Increased GI bleeding","Dual NSAIDs","Avoid combination",79
+Cyclosporine,Statins,critical,pharmacokinetic,"Increased statin toxicity","Drug interaction","Monitor for muscle pain",87
+Methotrexate,NSAIDs,critical,pharmacodynamic,"Increased methotrexate toxicity","Renal interaction","Avoid combination",88
+Protease Inhibitors,Statins,critical,pharmacokinetic,"Significantly increases statins","CYP3A4 inhibition","Use pravastatin instead",89
+Theophylline,Ciprofloxacin,critical,pharmacokinetic,"Increased theophylline levels","CYP inhibition","Monitor theophylline levels",88
+St Johns Wort,Warfarin,critical,pharmacokinetic,"Decreased warfarin effect","CYP induction","Avoid St Johns Wort",90
+St Johns Wort,SSRIs,critical,pharmacodynamic,"Serotonin syndrome risk","Herbal interaction","Avoid combination",87
+Potassium,ACE Inhibitors,critical,pharmacodynamic,"Severe hyperkalemia","Electrolyte imbalance","Avoid supplements",93
+Potassium,Spironolactone,critical,pharmacodynamic,"Life-threatening hyperkalemia","Potassium sparing","Never combine",94
+Nitrates,Sildenafil,critical,pharmacodynamic,"Life-threatening hypotension","Vasodilation","Absolutely contraindicated",96
+Nitrates,Tadalafil,critical,pharmacodynamic,"Severe hypotension risk","Vasodilation","Absolutely contraindicated",95
+MAOIs,Tyramine Foods,critical,pharmacodynamic,"Hypertensive crisis","Monoamine interaction","Avoid aged cheese wine cured meats",95
+Amoxicillin,Methotrexate,critical,pharmacokinetic,"Increases methotrexate toxicity","Renal excretion","Monitor levels",82
+Ciprofloxacin,Theophylline,critical,pharmacokinetic,"Severe theophylline toxicity","CYP inhibition","Reduce theophylline dose",88
+Metronidazole,Alcohol,critical,pharmacodynamic,"Disulfiram reaction","Aldehyde dehydrogenase","Avoid alcohol completely",94
+Rifampin,Warfarin,critical,pharmacokinetic,"Significantly decreases INR","CYP induction","May need warfarin dose increase",88
+Rifampin,Oral Contraceptives,critical,pharmacokinetic,"Reduces contraceptive efficacy","CYP induction","Use alternative birth control",91
+Valproate,Lamotrigine,moderate,pharmacokinetic,"Increases lamotrigine levels","Metabolism inhibition","Reduce lamotrigine dose",78
+Phenytoin,Warfarin,critical,pharmacokinetic,"Decreases warfarin effect","CYP induction","Monitor INR closely",85
+Carbamazepine,Warfarin,critical,pharmacokinetic,"Significantly decreases INR","CYP induction","May need higher warfarin dose",86
+Clopidogrel,Omeprazole,moderate,pharmacokinetic,"Reduces antiplatelet effect","CYP2C19 inhibition","Use alternative PPI",82
+Heparin,Aspirin,critical,pharmacodynamic,"Significant bleeding risk","Anticoagulant plus antiplatelet","Monitor closely",89
+Apixaban,Aspirin,critical,pharmacodynamic,"Increased bleeding risk","DOAC plus antiplatelet","Use with caution",87
+Glipizide,Fluconazole,moderate,pharmacokinetic,"Increases hypoglycemia risk","CYP inhibition","Monitor glucose",77
+Tenofovir,NSAIDs,moderate,pharmacodynamic,"Increased kidney injury risk","Renal toxicity","Monitor renal function",75
+Furosemide,Aminoglycosides,critical,pharmacodynamic,"Increased ototoxicity","Additive toxicity","Avoid combination",85
+Spironolactone,ACE Inhibitors,critical,pharmacodynamic,"Severe hyperkalemia","Additive effect","Avoid combination",90
+Diltiazem,Simvastatin,moderate,pharmacokinetic,"Increased statin levels","CYP3A4 inhibition","Limit simvastatin to 20mg",78
+Verapamil,Metoprolol,moderate,pharmacodynamic,"Severe bradycardia","Additive cardiac depression","Monitor heart rate",80

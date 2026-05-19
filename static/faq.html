@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - MediAI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f7fa; }
+        .navbar { background: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.08); padding: 1rem 0; }
+        .navbar-brand { font-size: 1.5rem; font-weight: 700; color: #0ea5e9; }
+        .faq-hero { background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%); color: white; padding: 60px 0; text-align: center; }
+        .faq-content { background: white; border-radius: 15px; padding: 40px; margin: -30px 20px 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .faq-item { border-bottom: 1px solid #e5e7eb; padding: 20px 0; cursor: pointer; }
+        .faq-question { font-size: 1.1rem; font-weight: 600; color: #1f2937; display: flex; justify-content: space-between; align-items: center; }
+        .faq-question i { transition: transform 0.3s ease; }
+        .faq-answer { display: none; padding-top: 15px; color: #6b7280; line-height: 1.6; }
+        .faq-answer.show { display: block; }
+        .faq-question .fa-chevron-down { transform: rotate(0deg); }
+        .faq-question.open .fa-chevron-down { transform: rotate(180deg); }
+        .footer { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: white; padding: 40px 0 20px; margin-top: 40px; }
+        @media (max-width: 768px) { .faq-content { padding: 20px; margin: -20px 10px 20px; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="/"><i class="fas fa-stethoscope"></i> MediAI</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/static/about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/static/privacy.html">Privacy</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/static/terms.html">Terms</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/static/faq.html">FAQ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/static/contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="faq-hero">
+        <div class="container">
+            <h1><i class="fas fa-question-circle"></i> Frequently Asked Questions</h1>
+            <p>Find answers to common questions about MediAI</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="faq-content">
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">
+                    What is MediAI and how does it work?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    MediAI is an AI-powered medical diagnosis assistant that uses machine learning (97.8% accuracy) to analyze symptoms and provide preliminary health insights. You select your symptoms, and our AI model identifies possible conditions with confidence scores.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">
+                    Is MediAI a replacement for doctors?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    No. MediAI is an educational tool only. It does NOT replace professional medical advice, diagnosis, or treatment. Always consult qualified healthcare providers for medical concerns. In emergencies, contact emergency services immediately.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">
+                    How accurate is the AI diagnosis?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Our ML model has 97.8% accuracy on test data, trained on 2000+ patient cases with 10 common diseases. However, it's not 100% accurate and should be used as a reference, not a definitive diagnosis.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">
+                    Is my health data safe and private?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Absolutely. We use industry-standard encryption, never sell your data, and you can request deletion anytime. Read our Privacy Policy for details.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">
+                    Do I need to create an account?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Basic diagnosis works without an account. However, creating a free account saves your consultation history, allows appointment scheduling, and provides personalized health recommendations.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">
+                    What symptoms and diseases are covered?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Currently, we cover 60+ symptoms and 10 common diseases including Cold, Flu, COVID-19, Migraine, Gastroenteritis, Allergic Rhinitis, Strep Throat, Bronchitis, Sinusitis, and Pneumonia.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">
+                    How do I use the medication interaction checker?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Go to the Medications tab, add your medications (one at a time), then click "Check Interactions". The system will identify any dangerous drug interactions from our 150+ interaction database.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">
+                    Is MediAI free to use?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Yes! MediAI is completely free for all users. We believe healthcare insights should be accessible to everyone.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">
+                    Can I share my consultation results with my doctor?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Yes! You can export your consultation history or show it directly to your healthcare provider as a reference. However, always rely on professional medical advice.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">
+                    How can I delete my account and data?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Contact us at privacy@mediai.com with your account email, and we will permanently delete all your data within 30 days.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4"><h5><i class="fas fa-stethoscope"></i> MediAI</h5><p>AI-Powered Medical Diagnosis Assistant</p></div>
+                <div class="col-md-4"><h5>Quick Links</h5><ul class="list-unstyled"><li><a href="/">Home</a></li><li><a href="/static/about.html">About</a></li><li><a href="/static/faq.html">FAQ</a></li></ul></div>
+                <div class="col-md-4"><h5>Support</h5><p><i class="fas fa-envelope"></i> support@mediai.com</p></div>
+            </div>
+            <div class="copyright text-center"><p>&copy; 2026 MediAI. All rights reserved.</p></div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleFAQ(element) {
+            const answer = element.querySelector('.faq-answer');
+            const question = element.querySelector('.faq-question');
+            answer.classList.toggle('show');
+            question.classList.toggle('open');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,514 @@
+{
+  "Aspirin,Warfarin": {
+    "severity": "critical",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Increased bleeding risk",
+    "mechanism": "Anti-platelet plus anticoagulant",
+    "management": "Avoid combination; monitor INR",
+    "confidence": 95
+  },
+  "Ibuprofen,Warfarin": {
+    "severity": "critical",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Increased GI bleeding",
+    "mechanism": "NSAID plus anticoagulant",
+    "management": "Use acetaminophen instead",
+    "confidence": 92
+  },
+  "Naproxen,Warfarin": {
+    "severity": "critical",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Increased bleeding risk",
+    "mechanism": "NSAID plus anticoagulant",
+    "management": "Avoid combination",
+    "confidence": 90
+  },
+  "Amiodarone,Warfarin": {
+    "severity": "critical",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "INR increases significantly",
+    "mechanism": "Multiple mechanisms",
+    "management": "Reduce warfarin dose",
+    "confidence": 94
+  },
+  "Ciprofloxacin,Warfarin": {
+    "severity": "critical",
+    "interaction_type": "pharmacokinetic",
+    "clinical_effect": "Increased anticoagulant effect",
+    "mechanism": "Antibiotic interaction",
+    "management": "Monitor INR frequently",
+    "confidence": 88
+  },
+  "Metronidazole,Warfarin": {
+    "severity": "critical",
+    "interaction_type": "pharmacokinetic",
+    "clinical_effect": "Significant INR increase",
+    "mechanism": "Antibiotic interaction",
+    "management": "Reduce warfarin dose",
+    "confidence": 89
+  },
+  "Fluconazole,Warfarin": {
+    "severity": "critical",
+    "interaction_type": "pharmacokinetic",
+    "clinical_effect": "Increased warfarin effect",
+    "mechanism": "Azole antifungal",
+    "management": "Reduce warfarin dose",
+    "confidence": 91
+  },
+  "Omeprazole,Warfarin": {
+    "severity": "moderate",
+    "interaction_type": "pharmacokinetic",
+    "clinical_effect": "May increase INR",
+    "mechanism": "PPI interaction",
+    "management": "Monitor INR",
+    "confidence": 75
+  },
+  "Simvastatin,Warfarin": {
+    "severity": "moderate",
+    "interaction_type": "pharmacokinetic",
+    "clinical_effect": "Increased bleeding risk",
+    "mechanism": "Statin interaction",
+    "management": "Monitor INR",
+    "confidence": 72
+  },
+  "Vitamin K,Warfarin": {
+    "severity": "critical",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Reverses anticoagulation",
+    "mechanism": "Direct reversal",
+    "management": "Avoid supplements",
+    "confidence": 96
+  },
+  "Insulin,Metformin": {
+    "severity": "moderate",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Increased hypoglycemia risk",
+    "mechanism": "Additive effect",
+    "management": "Monitor blood glucose",
+    "confidence": 88
+  },
+  "Metformin,Sulfonylureas": {
+    "severity": "moderate",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Additive hypoglycemia",
+    "mechanism": "Oral diabetic combination",
+    "management": "Monitor glucose; adjust doses",
+    "confidence": 85
+  },
+  "Contrast Dye,Metformin": {
+    "severity": "critical",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Risk of lactic acidosis",
+    "mechanism": "Renal interaction",
+    "management": "Stop metformin 48 hours before",
+    "confidence": 90
+  },
+  "ACE Inhibitors,Metformin": {
+    "severity": "moderate",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "May increase hypoglycemia",
+    "mechanism": "Additive effect",
+    "management": "Monitor glucose",
+    "confidence": 70
+  },
+  "Beta Blockers,Insulin": {
+    "severity": "moderate",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Masks hypoglycemia symptoms",
+    "mechanism": "Beta blocker effect",
+    "management": "Monitor glucose closely",
+    "confidence": 82
+  },
+  "Amiodarone,Digoxin": {
+    "severity": "critical",
+    "interaction_type": "pharmacokinetic",
+    "clinical_effect": "Increases digoxin levels",
+    "mechanism": "P-glycoprotein inhibition",
+    "management": "Monitor levels closely",
+    "confidence": 93
+  },
+  "Amiodarone,Simvastatin": {
+    "severity": "critical",
+    "interaction_type": "pharmacokinetic",
+    "clinical_effect": "Increased myopathy risk",
+    "mechanism": "Statin interaction",
+    "management": "Limit simvastatin to 20mg",
+    "confidence": 91
+  },
+  "Digoxin,Furosemide": {
+    "severity": "moderate",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Hypokalemia risk",
+    "mechanism": "Electrolyte imbalance",
+    "management": "Monitor potassium levels",
+    "confidence": 80
+  },
+  "Fibrates,Simvastatin": {
+    "severity": "critical",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Increased rhabdomyolysis risk",
+    "mechanism": "Muscle toxicity",
+    "management": "Avoid combination",
+    "confidence": 89
+  },
+  "Grapefruit,Simvastatin": {
+    "severity": "critical",
+    "interaction_type": "pharmacokinetic",
+    "clinical_effect": "5 to 10x increased statin levels",
+    "mechanism": "CYP3A4 inhibition",
+    "management": "Avoid grapefruit products",
+    "confidence": 95
+  },
+  "Atorvastatin,Grapefruit": {
+    "severity": "moderate",
+    "interaction_type": "pharmacokinetic",
+    "clinical_effect": "Increased statin levels",
+    "mechanism": "CYP3A4 inhibition",
+    "management": "Limit grapefruit intake",
+    "confidence": 72
+  },
+  "Lisinopril,Potassium": {
+    "severity": "critical",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Risk of hyperkalemia",
+    "mechanism": "Potassium sparing",
+    "management": "Avoid potassium supplements",
+    "confidence": 92
+  },
+  "Lisinopril,NSAIDs": {
+    "severity": "moderate",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Reduced BP control",
+    "mechanism": "Prostaglandin inhibition",
+    "management": "Monitor blood pressure",
+    "confidence": 75
+  },
+  "Losartan,Potassium": {
+    "severity": "critical",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Severe hyperkalemia risk",
+    "mechanism": "ARB interaction",
+    "management": "Avoid potassium supplements",
+    "confidence": 91
+  },
+  "MAOIs,SSRIs": {
+    "severity": "critical",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Serotonin syndrome risk",
+    "mechanism": "Neurotransmitter interaction",
+    "management": "Never combine; 14-day washout",
+    "confidence": 97
+  },
+  "NSAIDs,SSRIs": {
+    "severity": "moderate",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Increased bleeding risk",
+    "mechanism": "Serotonin plus antiplatelet",
+    "management": "Use with caution",
+    "confidence": 78
+  },
+  "SSRIs,Warfarin": {
+    "severity": "moderate",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "INR may increase",
+    "mechanism": "Serotonin plus anticoagulant",
+    "management": "Monitor INR",
+    "confidence": 74
+  },
+  "Lithium,NSAIDs": {
+    "severity": "critical",
+    "interaction_type": "pharmacokinetic",
+    "clinical_effect": "Increases lithium toxicity",
+    "mechanism": "Renal interaction",
+    "management": "Monitor lithium levels",
+    "confidence": 90
+  },
+  "Diuretics,Lithium": {
+    "severity": "critical",
+    "interaction_type": "pharmacokinetic",
+    "clinical_effect": "Significant lithium increase",
+    "mechanism": "Renal interaction",
+    "management": "Reduce lithium dose",
+    "confidence": 88
+  },
+  "ACE Inhibitors,Lithium": {
+    "severity": "critical",
+    "interaction_type": "pharmacokinetic",
+    "clinical_effect": "Increased lithium levels",
+    "mechanism": "Renal interaction",
+    "management": "Monitor lithium frequently",
+    "confidence": 86
+  },
+  "Benzodiazepines,Opioids": {
+    "severity": "critical",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Respiratory depression risk",
+    "mechanism": "CNS depression",
+    "management": "Avoid combination",
+    "confidence": 94
+  },
+  "SSRIs,Tramadol": {
+    "severity": "critical",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Serotonin syndrome risk",
+    "mechanism": "Serotonergic effect",
+    "management": "Monitor for symptoms",
+    "confidence": 86
+  },
+  "CYP2D6 Inhibitors,Codeine": {
+    "severity": "moderate",
+    "interaction_type": "pharmacokinetic",
+    "clinical_effect": "Reduced codeine effectiveness",
+    "mechanism": "Metabolism issue",
+    "management": "Monitor pain relief",
+    "confidence": 78
+  },
+  "Benzodiazepines,Morphine": {
+    "severity": "critical",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Severe respiratory depression",
+    "mechanism": "CNS depression",
+    "management": "Avoid combination",
+    "confidence": 92
+  },
+  "Benzodiazepines,Oxycodone": {
+    "severity": "critical",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Increased overdose risk",
+    "mechanism": "Additive sedation",
+    "management": "Avoid combination",
+    "confidence": 91
+  },
+  "Acetaminophen,Alcohol": {
+    "severity": "critical",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Liver damage risk",
+    "mechanism": "Hepatotoxicity",
+    "management": "Avoid with chronic alcohol use",
+    "confidence": 89
+  },
+  "Aspirin,Ibuprofen": {
+    "severity": "moderate",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Increased GI bleeding",
+    "mechanism": "Dual NSAIDs",
+    "management": "Avoid combination",
+    "confidence": 79
+  },
+  "Cyclosporine,Statins": {
+    "severity": "critical",
+    "interaction_type": "pharmacokinetic",
+    "clinical_effect": "Increased statin toxicity",
+    "mechanism": "Drug interaction",
+    "management": "Monitor for muscle pain",
+    "confidence": 87
+  },
+  "Methotrexate,NSAIDs": {
+    "severity": "critical",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Increased methotrexate toxicity",
+    "mechanism": "Renal interaction",
+    "management": "Avoid combination",
+    "confidence": 88
+  },
+  "Protease Inhibitors,Statins": {
+    "severity": "critical",
+    "interaction_type": "pharmacokinetic",
+    "clinical_effect": "Significantly increases statins",
+    "mechanism": "CYP3A4 inhibition",
+    "management": "Use pravastatin instead",
+    "confidence": 89
+  },
+  "Ciprofloxacin,Theophylline": {
+    "severity": "critical",
+    "interaction_type": "pharmacokinetic",
+    "clinical_effect": "Severe theophylline toxicity",
+    "mechanism": "CYP inhibition",
+    "management": "Reduce theophylline dose",
+    "confidence": 88
+  },
+  "St Johns Wort,Warfarin": {
+    "severity": "critical",
+    "interaction_type": "pharmacokinetic",
+    "clinical_effect": "Decreased warfarin effect",
+    "mechanism": "CYP induction",
+    "management": "Avoid St Johns Wort",
+    "confidence": 90
+  },
+  "SSRIs,St Johns Wort": {
+    "severity": "critical",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Serotonin syndrome risk",
+    "mechanism": "Herbal interaction",
+    "management": "Avoid combination",
+    "confidence": 87
+  },
+  "ACE Inhibitors,Potassium": {
+    "severity": "critical",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Severe hyperkalemia",
+    "mechanism": "Electrolyte imbalance",
+    "management": "Avoid supplements",
+    "confidence": 93
+  },
+  "Potassium,Spironolactone": {
+    "severity": "critical",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Life-threatening hyperkalemia",
+    "mechanism": "Potassium sparing",
+    "management": "Never combine",
+    "confidence": 94
+  },
+  "Nitrates,Sildenafil": {
+    "severity": "critical",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Life-threatening hypotension",
+    "mechanism": "Vasodilation",
+    "management": "Absolutely contraindicated",
+    "confidence": 96
+  },
+  "Nitrates,Tadalafil": {
+    "severity": "critical",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Severe hypotension risk",
+    "mechanism": "Vasodilation",
+    "management": "Absolutely contraindicated",
+    "confidence": 95
+  },
+  "MAOIs,Tyramine Foods": {
+    "severity": "critical",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Hypertensive crisis",
+    "mechanism": "Monoamine interaction",
+    "management": "Avoid aged cheese wine cured meats",
+    "confidence": 95
+  },
+  "Amoxicillin,Methotrexate": {
+    "severity": "critical",
+    "interaction_type": "pharmacokinetic",
+    "clinical_effect": "Increases methotrexate toxicity",
+    "mechanism": "Renal excretion",
+    "management": "Monitor levels",
+    "confidence": 82
+  },
+  "Alcohol,Metronidazole": {
+    "severity": "critical",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Disulfiram reaction",
+    "mechanism": "Aldehyde dehydrogenase",
+    "management": "Avoid alcohol completely",
+    "confidence": 94
+  },
+  "Rifampin,Warfarin": {
+    "severity": "critical",
+    "interaction_type": "pharmacokinetic",
+    "clinical_effect": "Significantly decreases INR",
+    "mechanism": "CYP induction",
+    "management": "May need warfarin dose increase",
+    "confidence": 88
+  },
+  "Oral Contraceptives,Rifampin": {
+    "severity": "critical",
+    "interaction_type": "pharmacokinetic",
+    "clinical_effect": "Reduces contraceptive efficacy",
+    "mechanism": "CYP induction",
+    "management": "Use alternative birth control",
+    "confidence": 91
+  },
+  "Lamotrigine,Valproate": {
+    "severity": "moderate",
+    "interaction_type": "pharmacokinetic",
+    "clinical_effect": "Increases lamotrigine levels",
+    "mechanism": "Metabolism inhibition",
+    "management": "Reduce lamotrigine dose",
+    "confidence": 78
+  },
+  "Phenytoin,Warfarin": {
+    "severity": "critical",
+    "interaction_type": "pharmacokinetic",
+    "clinical_effect": "Decreases warfarin effect",
+    "mechanism": "CYP induction",
+    "management": "Monitor INR closely",
+    "confidence": 85
+  },
+  "Carbamazepine,Warfarin": {
+    "severity": "critical",
+    "interaction_type": "pharmacokinetic",
+    "clinical_effect": "Significantly decreases INR",
+    "mechanism": "CYP induction",
+    "management": "May need higher warfarin dose",
+    "confidence": 86
+  },
+  "Clopidogrel,Omeprazole": {
+    "severity": "moderate",
+    "interaction_type": "pharmacokinetic",
+    "clinical_effect": "Reduces antiplatelet effect",
+    "mechanism": "CYP2C19 inhibition",
+    "management": "Use alternative PPI",
+    "confidence": 82
+  },
+  "Aspirin,Heparin": {
+    "severity": "critical",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Significant bleeding risk",
+    "mechanism": "Anticoagulant plus antiplatelet",
+    "management": "Monitor closely",
+    "confidence": 89
+  },
+  "Apixaban,Aspirin": {
+    "severity": "critical",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Increased bleeding risk",
+    "mechanism": "DOAC plus antiplatelet",
+    "management": "Use with caution",
+    "confidence": 87
+  },
+  "Fluconazole,Glipizide": {
+    "severity": "moderate",
+    "interaction_type": "pharmacokinetic",
+    "clinical_effect": "Increases hypoglycemia risk",
+    "mechanism": "CYP inhibition",
+    "management": "Monitor glucose",
+    "confidence": 77
+  },
+  "NSAIDs,Tenofovir": {
+    "severity": "moderate",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Increased kidney injury risk",
+    "mechanism": "Renal toxicity",
+    "management": "Monitor renal function",
+    "confidence": 75
+  },
+  "Aminoglycosides,Furosemide": {
+    "severity": "critical",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Increased ototoxicity",
+    "mechanism": "Additive toxicity",
+    "management": "Avoid combination",
+    "confidence": 85
+  },
+  "ACE Inhibitors,Spironolactone": {
+    "severity": "critical",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Severe hyperkalemia",
+    "mechanism": "Additive effect",
+    "management": "Avoid combination",
+    "confidence": 90
+  },
+  "Diltiazem,Simvastatin": {
+    "severity": "moderate",
+    "interaction_type": "pharmacokinetic",
+    "clinical_effect": "Increased statin levels",
+    "mechanism": "CYP3A4 inhibition",
+    "management": "Limit simvastatin to 20mg",
+    "confidence": 78
+  },
+  "Metoprolol,Verapamil": {
+    "severity": "moderate",
+    "interaction_type": "pharmacodynamic",
+    "clinical_effect": "Severe bradycardia",
+    "mechanism": "Additive cardiac depression",
+    "management": "Monitor heart rate",
+    "confidence": 80
+  }
+}

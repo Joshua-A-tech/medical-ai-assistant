@@ -1,10 +1,9 @@
-// Medical AI Assistant - Complete Application
+// Medical AI Assistant - Complete Frontend
 
 const MedicalApp = {
     selectedSymptoms: new Set(),
     selectedMedications: [],
     
-    // Initialize app
     init() {
         console.log('Medical App Initializing...');
         this.loadSymptoms();
@@ -17,16 +16,13 @@ const MedicalApp = {
     },
     
     setupEventListeners() {
-        // Tab switching
         document.querySelectorAll('[data-tab]').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
-                const tabName = link.getAttribute('data-tab');
-                this.switchTab(tabName);
+                this.switchTab(link.getAttribute('data-tab'));
             });
         });
         
-        // Disease search
         const searchInput = document.getElementById('disease-search');
         if (searchInput) {
             searchInput.addEventListener('input', (e) => {
@@ -34,7 +30,6 @@ const MedicalApp = {
             });
         }
         
-        // Image preview
         const imageInput = document.getElementById('image-input');
         if (imageInput) {
             imageInput.addEventListener('change', (e) => {
@@ -64,7 +59,6 @@ const MedicalApp = {
         
         if (tabName === 'appointments') this.loadAppointments();
         if (tabName === 'history') this.loadConsultationHistory();
-        if (tabName === 'diseases') this.loadDiseases();
     },
     
     showLoading() {
@@ -97,7 +91,7 @@ const MedicalApp = {
             const container = document.getElementById('symptoms-container');
             if (container) {
                 container.innerHTML = data.symptoms.map(s => 
-                    `<span class="symptom-badge" onclick="window.medicalApp.toggleSymptom('${s}')">${s}</span>`
+                    `<span class="symptom-badge" onclick="medicalApp.toggleSymptom('${s}')">${s}</span>`
                 ).join('');
             }
         } catch (error) {
@@ -158,10 +152,9 @@ const MedicalApp = {
     displayDiagnosis(result) {
         const primary = result.primary_diagnosis;
         const html = `
-            <div class="diagnosis-card">
+            <div class="diagnosis-card" style="background:#e0f2fe; padding:20px; border-radius:10px; margin-top:20px;">
                 <h3>🎯 Primary Diagnosis: ${primary.disease}</h3>
                 <p><strong>Match Confidence:</strong> ${primary.match_percentage}%</p>
-                <p><strong>Matched Symptoms:</strong> ${primary.matched_symptoms.join(', ')}</p>
                 <p><strong>Severity:</strong> ${primary.severity}</p>
                 <p><strong>Expected Duration:</strong> ${primary.duration}</p>
                 <p><strong>Recommendation:</strong> ${primary.recommendation}</p>
@@ -197,7 +190,6 @@ const MedicalApp = {
                 method: 'POST',
                 body: formData
             });
-            
             const result = await response.json();
             
             let html = `
@@ -207,20 +199,10 @@ const MedicalApp = {
                     <p><strong>Brightness:</strong> ${result.brightness}</p>
                     <p><strong>Contrast:</strong> ${result.contrast}</p>
                     <p><strong>Redness:</strong> ${result.redness}%</p>
-                    <p><strong>Detail Level:</strong> ${result.edge_density}%</p>
+                </div>
             `;
-            if (result.recommendations && result.recommendations.length > 0) {
-                html += '<p><strong>Recommendations:</strong></p><ul>';
-                result.recommendations.forEach(r => {
-                    html += `<li>${r}</li>`;
-                });
-                html += '</ul>';
-            }
-            html += `</div>`;
-            
             document.getElementById('analysis-result').innerHTML = html;
         } catch (error) {
-            console.error('Error:', error);
             alert('Error analyzing image');
         } finally {
             this.hideLoading();
@@ -233,9 +215,9 @@ const MedicalApp = {
             const stats = await response.json();
             const html = `
                 <div class="stats-grid">
-                    <div class="metric-card"><div class="metric-value">${stats.total_diseases}</div><div class="metric-label">Diseases</div></div>
-                    <div class="metric-card"><div class="metric-value">${stats.total_symptoms}</div><div class="metric-label">Symptoms</div></div>
-                    <div class="metric-card"><div class="metric-value">${stats.consultations || 0}</div><div class="metric-label">Consultations</div></div>
+                    <div class="metric-card"><div class="metric-value">${stats.total_diseases}</div><div>Diseases</div></div>
+                    <div class="metric-card"><div class="metric-value">${stats.total_symptoms}</div><div>Symptoms</div></div>
+                    <div class="metric-card"><div class="metric-value">${stats.consultations || 0}</div><div>Consultations</div></div>
                 </div>
             `;
             const container = document.getElementById('stats-container');
@@ -284,7 +266,7 @@ const MedicalApp = {
                             <h5>${disease}</h5>
                             <p><strong>Severity:</strong> ${d.severity}</p>
                             <p><strong>Symptoms:</strong> ${d.symptoms.slice(0, 5).join(', ')}</p>
-                            <button class="btn btn-sm btn-primary" onclick="window.medicalApp.showDiseaseDetails('${disease}')">View Details</button>
+                            <button class="btn btn-sm btn-primary" onclick="medicalApp.showDiseaseDetails('${disease}')">View Details</button>
                         </div>
                     </div>
                 `;
@@ -372,7 +354,7 @@ ${d.prevention}
             container.innerHTML = this.selectedMedications.map(med => `
                 <span class="badge bg-primary p-2">
                     ${med}
-                    <i class="fas fa-times-circle ms-2" style="cursor:pointer;" onclick="window.medicalApp.removeMedication('${med}')"></i>
+                    <i class="fas fa-times-circle ms-2" style="cursor:pointer;" onclick="medicalApp.removeMedication('${med}')"></i>
                 </span>
             `).join('');
         }
@@ -396,7 +378,7 @@ ${d.prevention}
             this.displayInteractions(result.interactions);
         } catch (error) {
             console.error('Error:', error);
-            alert('Error checking interactions');
+            alert('Error checking interactions: ' + error.message);
         } finally {
             this.hideLoading();
         }
@@ -406,21 +388,35 @@ ${d.prevention}
         const container = document.getElementById('interaction-results');
         if (!container) return;
         
-        if (interactions.length === 0) {
+        if (!interactions || interactions.length === 0) {
             container.innerHTML = '<div class="alert alert-success mt-3">✅ No interactions found between your medications.</div>';
-        } else {
-            container.innerHTML = `
-                <div class="alert alert-warning mt-3">
-                    <h6>⚠️ Interactions Found:</h6>
-                    ${interactions.map(i => `
-                        <div class="mt-2 p-2 bg-light rounded">
-                            <strong>${i.medications.join(' + ')}</strong>
-                            <p class="text-danger mb-0 small">${i.warning}</p>
+            return;
+        }
+        
+        let html = '<div class="mt-3">';
+        
+        for (let inter of interactions) {
+            const severityClass = inter.severity === 'critical' ? 'danger' : 'warning';
+            const drug1 = inter.medications[0];
+            const drug2 = inter.medications[1];
+            
+            html += `
+                <div class="alert alert-${severityClass} mt-2">
+                    <div class="d-flex align-items-start">
+                        <i class="fas ${severityClass === 'danger' ? 'fa-skull-crossbones' : 'fa-exclamation-triangle'} fa-2x me-3 mt-1"></i>
+                        <div>
+                            <strong>⚠️ ${drug1} + ${drug2}</strong>
+                            <p class="mb-1 mt-2"><strong>Severity:</strong> <span class="badge ${severityClass === 'danger' ? 'bg-danger' : 'bg-warning'}">${inter.severity.toUpperCase()}</span></p>
+                            <p class="mb-1"><strong>Clinical Effect:</strong> ${inter.effect || 'Unknown effect'}</p>
+                            <p class="mb-0"><strong>Management:</strong> ${inter.management || 'Consult healthcare provider'}</p>
                         </div>
-                    `).join('')}
+                    </div>
                 </div>
             `;
         }
+        
+        html += '<div class="alert alert-info mt-3"><i class="fas fa-info-circle"></i> <strong>Important:</strong> Always consult your healthcare provider before combining medications.</div>';
+        container.innerHTML = html;
     },
     
     // Appointment Functions
@@ -486,31 +482,463 @@ ${d.prevention}
         } catch (error) {
             console.error('Error loading appointments:', error);
         }
-    },
-    
-    cancelAppointment(appointmentId) {
-        if (confirm('Are you sure you want to cancel this appointment?')) {
-            alert('Cancellation feature coming soon');
-        }
     }
 };
 
 // Initialize
-window.medicalApp = MedicalApp;
+const medicalApp = MedicalApp;
+medicalApp.init();
 
-// Auto-initialize when DOM loads
-document.addEventListener('DOMContentLoaded', () => {
-    MedicalApp.init();
+// Global functions
+window.medicalApp = medicalApp;
+window.addMedication = () => medicalApp.addMedication();
+window.removeMedication = (m) => medicalApp.removeMedication(m);
+window.checkMedicationInteractions = () => medicalApp.checkMedicationInteractions();
+window.scheduleAppointment = () => medicalApp.scheduleAppointment();
+window.loadAppointments = () => medicalApp.loadAppointments();
+window.toggleSymptom = (s) => medicalApp.toggleSymptom(s);
+window.performDiagnosis = () => medicalApp.performDiagnosis();
+window.analyzeImage = () => medicalApp.analyzeImage();
+window.showDiseaseDetails = (d) => medicalApp.showDiseaseDetails(d);
+
+// ============ HEALTH CHECKUP FUNCTIONS ============
+
+async function calculateHealthCheckup() {
+    const height = parseFloat(document.getElementById('height')?.value);
+    const weight = parseFloat(document.getElementById('weight')?.value);
+    const age = parseInt(document.getElementById('age')?.value);
+    const activity = document.getElementById('activity')?.value;
+    const systolic = parseInt(document.getElementById('systolic')?.value);
+    const diastolic = parseInt(document.getElementById('diastolic')?.value);
+    
+    if (!height || !weight) {
+        alert('Please enter height and weight');
+        return;
+    }
+    
+    showLoading();
+    
+    const requestData = {
+        height_cm: height,
+        weight_kg: weight,
+        systolic_bp: systolic || null,
+        diastolic_bp: diastolic || null,
+        age: age || null,
+        activity_level: activity || 'sedentary'
+    };
+    
+    try {
+        const response = await fetch('/api/health-checkup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(requestData)
+        });
+        
+        const result = await response.json();
+        displayHealthResults(result);
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error calculating health metrics');
+    } finally {
+        hideLoading();
+    }
+}
+
+function displayHealthResults(result) {
+    const container = document.getElementById('health-results');
+    if (!container) return;
+    
+    const metrics = result.metrics;
+    const bp = result.blood_pressure;
+    const healthScore = result.health_score;
+    const healthRating = result.health_rating;
+    
+    // Determine score color
+    let scoreColor = 'success';
+    if (healthScore < 40) scoreColor = 'danger';
+    else if (healthScore < 60) scoreColor = 'warning';
+    else if (healthScore < 80) scoreColor = 'info';
+    
+    let html = `
+        <div class="text-center mb-4">
+            <div class="display-4 fw-bold text-${scoreColor}">${healthScore}</div>
+            <div class="badge bg-${scoreColor} fs-6">${healthRating} Health Rating</div>
+        </div>
+        
+        <div class="alert alert-info">
+            <i class="fas fa-chart-simple"></i> <strong>BMI: ${metrics.bmi}</strong> (${metrics.bmi_category})
+            <div class="progress mt-2">
+                <div class="progress-bar bg-${metrics.bmi === 'Normal weight' ? 'success' : 'warning'}" 
+                     style="width: ${Math.min(metrics.bmi / 40 * 100, 100)}%"></div>
+            </div>
+            <small class="text-muted">${metrics.bmi_recommendation}</small>
+        </div>
+        
+        ${bp ? `
+        <div class="alert ${bp.status.includes('Normal') ? 'alert-success' : bp.status.includes('Elevated') ? 'alert-warning' : 'alert-danger'}">
+            <i class="fas fa-heartbeat"></i> <strong>Blood Pressure: ${bp.systolic}/${bp.diastolic}</strong>
+            <div>${bp.status}</div>
+            <small class="text-muted">${bp.recommendation}</small>
+        </div>
+        ` : ''}
+        
+        <div class="row mt-3">
+            <div class="col-6">
+                <div class="metric-card">
+                    <div class="metric-value">${metrics.bmr_calories}</div>
+                    <div class="metric-label">BMR (calories/day)</div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="metric-card">
+                    <div class="metric-value">${metrics.tdee_calories}</div>
+                    <div class="metric-label">TDEE (calories/day)</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="alert alert-success mt-3">
+            <strong><i class="fas fa-bullseye"></i> Ideal Weight Range:</strong><br>
+            ${metrics.ideal_weight_range.min} - ${metrics.ideal_weight_range.max} kg
+        </div>
+        
+        <div class="alert alert-warning">
+            <strong><i class="fas fa-list"></i> Health Recommendations:</strong>
+            <ul class="mt-2 mb-0">
+                ${result.recommendations.map(rec => `<li>${rec}</li>`).join('')}
+            </ul>
+        </div>
+    `;
+    
+    container.innerHTML = html;
+}
+
+// Add to window for global access
+window.calculateHealthCheckup = calculateHealthCheckup;
+
+// ============ HEALTH CHECKUP FUNCTIONS ============
+
+async function calculateHealthCheckup() {
+    console.log("Calculating health checkup...");
+    
+    // Get form values
+    const height = parseFloat(document.getElementById('height')?.value);
+    const weight = parseFloat(document.getElementById('weight')?.value);
+    const age = parseInt(document.getElementById('age')?.value);
+    const activity = document.getElementById('activity')?.value;
+    const systolic = parseInt(document.getElementById('systolic')?.value);
+    const diastolic = parseInt(document.getElementById('diastolic')?.value);
+    
+    // Validate
+    if (!height || !weight) {
+        alert('Please enter height and weight');
+        return;
+    }
+    
+    // Show loading
+    if (window.medicalApp) {
+        window.medicalApp.showLoading();
+    }
+    
+    const requestData = {
+        height_cm: height,
+        weight_kg: weight,
+        systolic_bp: systolic || null,
+        diastolic_bp: diastolic || null,
+        age: age || null,
+        activity_level: activity || 'sedentary'
+    };
+    
+    try {
+        const response = await fetch('/api/health-checkup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(requestData)
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            displayHealthResults(result);
+        } else {
+            alert('Error: ' + (result.error || 'Unknown error'));
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error calculating health metrics. Please try again.');
+    } finally {
+        if (window.medicalApp) {
+            window.medicalApp.hideLoading();
+        }
+    }
+}
+
+function displayHealthResults(result) {
+    const container = document.getElementById('health-results');
+    if (!container) return;
+    
+    const metrics = result.metrics;
+    const bp = result.blood_pressure;
+    const healthScore = result.health_score;
+    
+    // Score color
+    let scoreColor = 'success';
+    if (healthScore < 40) scoreColor = 'danger';
+    else if (healthScore < 60) scoreColor = 'warning';
+    else if (healthScore < 80) scoreColor = 'info';
+    
+    let html = `
+        <div class="text-center mb-4">
+            <div class="display-4 fw-bold text-${scoreColor}">${healthScore}</div>
+            <span class="badge bg-${scoreColor} fs-6">${result.health_rating}</span>
+            <div class="small text-muted">Health Score</div>
+        </div>
+        
+        <div class="alert alert-info">
+            <strong>📊 BMI: ${metrics.bmi}</strong> (${metrics.bmi_category})
+            <div class="progress mt-2">
+                <div class="progress-bar ${metrics.bmi_category === 'Normal weight' ? 'bg-success' : 'bg-warning'}" 
+                     style="width: ${Math.min(metrics.bmi / 40 * 100, 100)}%"></div>
+            </div>
+            <small class="d-block mt-2">${metrics.bmi_recommendation}</small>
+        </div>`;
+    
+    if (bp && bp.status) {
+        let bpColor = 'success';
+        if (bp.status.includes('Elevated')) bpColor = 'warning';
+        else if (bp.status.includes('Stage')) bpColor = 'danger';
+        else if (bp.status.includes('Crisis')) bpColor = 'danger';
+        
+        html += `
+        <div class="alert alert-${bpColor}">
+            <strong>❤️ Blood Pressure: ${bp.systolic}/${bp.diastolic}</strong>
+            <div>${bp.status}</div>
+            <small>${bp.recommendation || 'Monitor regularly'}</small>
+        </div>`;
+    }
+    
+    html += `
+        <div class="row mt-3">
+            <div class="col-6">
+                <div class="metric-card">
+                    <div class="metric-value">${metrics.bmr_calories}</div>
+                    <div class="metric-label">BMR (calories/day)</div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="metric-card">
+                    <div class="metric-value">${metrics.tdee_calories}</div>
+                    <div class="metric-label">Daily Calories</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="alert alert-success mt-3">
+            <strong>🎯 Healthy Weight Range:</strong><br>
+            ${metrics.ideal_weight_range.min} - ${metrics.ideal_weight_range.max} kg
+        </div>
+        
+        <div class="alert alert-warning">
+            <strong>📋 Health Recommendations:</strong>
+            <ul class="mt-2 mb-0">
+                ${result.recommendations.map(rec => `<li>${rec}</li>`).join('')}
+            </ul>
+        </div>
+    `;
+    
+    container.innerHTML = html;
+}
+
+// Make global
+window.calculateHealthCheckup = calculateHealthCheckup;
+
+// ============ HEALTH CHECKUP FUNCTION ============
+
+async function calculateHealthCheckup() {
+    console.log("Calculating health checkup...");
+    
+    // Get values from form
+    const height = parseFloat(document.getElementById('height')?.value);
+    const weight = parseFloat(document.getElementById('weight')?.value);
+    const age = parseInt(document.getElementById('age')?.value);
+    const activity = document.getElementById('activity')?.value;
+    const systolic = parseInt(document.getElementById('systolic')?.value);
+    const diastolic = parseInt(document.getElementById('diastolic')?.value);
+    
+    // Validate
+    if (!height || !weight) {
+        alert('Please enter height and weight');
+        return;
+    }
+    
+    // Show loading
+    if (window.medicalApp && window.medicalApp.showLoading) {
+        window.medicalApp.showLoading();
+    }
+    
+    const requestData = {
+        height_cm: height,
+        weight_kg: weight,
+        systolic_bp: systolic || null,
+        diastolic_bp: diastolic || null,
+        age: age || null,
+        activity_level: activity || 'sedentary'
+    };
+    
+    try {
+        const response = await fetch('/api/health-checkup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(requestData)
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+        
+        const result = await response.json();
+        console.log("Health result:", result);
+        
+        if (result.success) {
+            displayHealthResults(result);
+        } else {
+            alert('Error: ' + (result.error || 'Unknown error'));
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error calculating health metrics: ' + error.message);
+    } finally {
+        if (window.medicalApp && window.medicalApp.hideLoading) {
+            window.medicalApp.hideLoading();
+        }
+    }
+}
+
+function displayHealthResults(result) {
+    const container = document.getElementById('health-results');
+    if (!container) {
+        console.error("Health results container not found");
+        return;
+    }
+    
+    const bmi = result.bmi;
+    const bmiCategory = result.bmi_category;
+    const healthScore = result.health_score;
+    const healthRating = result.health_rating;
+    const recommendation = result.recommendation;
+    const idealMin = result.ideal_weight_range.min;
+    const idealMax = result.ideal_weight_range.max;
+    
+    // Determine color based on BMI category
+    let bmiColor = 'info';
+    if (bmiCategory === 'Normal weight') bmiColor = 'success';
+    else if (bmiCategory === 'Overweight') bmiColor = 'warning';
+    else if (bmiCategory === 'Obese') bmiColor = 'danger';
+    else if (bmiCategory === 'Underweight') bmiColor = 'warning';
+    
+    // Score color
+    let scoreColor = 'success';
+    if (healthScore < 40) scoreColor = 'danger';
+    else if (healthScore < 60) scoreColor = 'warning';
+    else if (healthScore < 80) scoreColor = 'info';
+    
+    const html = `
+        <div class="text-center mb-4">
+            <div class="display-4 fw-bold text-${scoreColor}">${healthScore}</div>
+            <span class="badge bg-${scoreColor} fs-6">${healthRating}</span>
+            <div class="small text-muted">Health Score</div>
+        </div>
+        
+        <div class="alert alert-${bmiColor}">
+            <strong>📊 BMI: ${bmi}</strong> (${bmiCategory})
+            <div class="progress mt-2">
+                <div class="progress-bar bg-${bmiColor}" 
+                     style="width: ${Math.min(bmi / 40 * 100, 100)}%"></div>
+            </div>
+            <small class="d-block mt-2">${recommendation}</small>
+        </div>
+        
+        <div class="alert alert-success mt-3">
+            <strong>🎯 Healthy Weight Range:</strong><br>
+            ${idealMin} - ${idealMax} kg
+        </div>
+        
+        <div class="alert alert-info mt-3">
+            <strong>💡 Health Tips:</strong>
+            <ul class="mt-2 mb-0">
+                <li>Get 7-8 hours of sleep daily</li>
+                <li>Drink 8+ glasses of water daily</li>
+                <li>Exercise 30 minutes, 5 days a week</li>
+                <li>Eat a balanced diet with fruits and vegetables</li>
+            </ul>
+        </div>
+    `;
+    
+    container.innerHTML = html;
+}
+
+// Make function global
+window.calculateHealthCheckup = calculateHealthCheckup;
+
+// Ensure the footer links work with the app
+if (window.medicalApp) {
+    const originalSwitchTab = window.medicalApp.switchTab;
+    window.medicalApp.switchTab = function(tabName) {
+        if (originalSwitchTab) originalSwitchTab.call(this, tabName);
+        // Close mobile menu if open
+        const navbarCollapse = document.querySelector('.navbar-collapse');
+        if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+            navbarCollapse.classList.remove('show');
+        }
+    };
+}
+
+// ============ MOBILE RESPONSIVENESS ============
+
+// Close mobile menu when clicking a link
+document.querySelectorAll('.nav-link, .navbar-nav a').forEach(link => {
+    link.addEventListener('click', () => {
+        const navbarCollapse = document.querySelector('.navbar-collapse');
+        if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+            navbarCollapse.classList.remove('show');
+        }
+    });
 });
 
-// Global functions for inline onclick handlers
-window.toggleSymptom = (s) => MedicalApp.toggleSymptom(s);
-window.performDiagnosis = () => MedicalApp.performDiagnosis();
-window.analyzeImage = () => MedicalApp.analyzeImage();
-window.addMedication = () => MedicalApp.addMedication();
-window.removeMedication = (m) => MedicalApp.removeMedication(m);
-window.checkMedicationInteractions = () => MedicalApp.checkMedicationInteractions();
-window.scheduleAppointment = () => MedicalApp.scheduleAppointment();
-window.loadAppointments = () => MedicalApp.loadAppointments();
-window.showDiseaseDetails = (d) => MedicalApp.showDiseaseDetails(d);
-window.cancelAppointment = (id) => MedicalApp.cancelAppointment(id);
+// Handle touch events for symptom badges
+function initTouchEvents() {
+    const isTouch = 'ontouchstart' in window;
+    if (isTouch) {
+        document.querySelectorAll('.symptom-badge').forEach(badge => {
+            badge.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                this.click();
+            });
+        });
+    }
+}
+
+// Call on load
+document.addEventListener('DOMContentLoaded', () => {
+    initTouchEvents();
+});
+
+// Adjust layout on orientation change
+window.addEventListener('orientationchange', function() {
+    setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+    }, 100);
+});
+
+// Fix for 100vh on mobile browsers
+function setVh() {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+
+window.addEventListener('resize', setVh);
+setVh();
