@@ -12,3 +12,4 @@ app.py.*
 app_*.py
 fix_*.py
 update_*.sh
+data/subscribers.json
