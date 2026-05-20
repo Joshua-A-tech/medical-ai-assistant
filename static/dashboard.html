@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>MediAI Dashboard - Medical Diagnosis Assistant</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f7fa; }
+        
+        /* Navbar */
+        .navbar { background: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.08); padding: 1rem 0; border-bottom: 1px solid #e5e7eb; }
+        .navbar-brand { font-size: 1.5rem; font-weight: 700; color: #0ea5e9; }
+        .navbar-brand i { color: #0ea5e9; margin-right: 8px; }
+        .nav-link { color: #4b5563; font-weight: 500; transition: all 0.2s ease; }
+        .nav-link:hover, .nav-link.active { color: #0ea5e9; background: #f0f9ff; border-radius: 8px; }
+        
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
+            color: white;
+            padding: 60px 0;
+            margin-bottom: 40px;
+        }
+        .hero-title { font-size: 2.5rem; font-weight: 700; margin-bottom: 20px; }
+        .hero-subtitle { font-size: 1.1rem; opacity: 0.95; margin-bottom: 30px; }
+        .stat-badge { background: rgba(255,255,255,0.2); border-radius: 10px; padding: 15px; text-align: center; }
+        .stat-number { font-size: 1.8rem; font-weight: 700; }
+        
+        /* Dashboard Cards */
+        .dashboard-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            height: 100%;
+            cursor: pointer;
+            border: 1px solid #e5e7eb;
+        }
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-color: #0ea5e9;
+        }
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .card-icon i { font-size: 28px; color: white; }
+        .card-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 10px; color: #1f2937; }
+        .card-desc { color: #6b7280; font-size: 0.9rem; line-height: 1.5; }
+        .card-stats { margin-top: 15px; padding-top: 15px; border-top: 1px solid #e5e7eb; color: #0ea5e9; font-weight: 600; }
+        
+        /* Quick Actions */
+        .quick-action { background: white; border-radius: 12px; padding: 15px; text-align: center; transition: all 0.2s ease; cursor: pointer; border: 1px solid #e5e7eb; }
+        .quick-action:hover { background: #f0f9ff; border-color: #0ea5e9; transform: translateY(-2px); }
+        
+        /* Footer */
+        .footer { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: white; padding: 40px 0 20px; margin-top: 60px; }
+        .footer a { color: #cbd5e1; text-decoration: none; }
+        .footer a:hover { color: #0ea5e9; }
+        
+        @media (max-width: 768px) {
+            .hero-title { font-size: 1.8rem; }
+            .dashboard-card { margin-bottom: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="/"><i class="fas fa-stethoscope"></i> MediAI</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="/">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/static/about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/static/contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-7">
+                    <h1 class="hero-title"><i class="fas fa-robot"></i> Welcome to MediAI</h1>
+                    <p class="hero-subtitle">Your AI-Powered Medical Diagnosis Assistant with 97.8% accuracy. Get instant health insights, track your wellness, and make informed decisions.</p>
+                    <div class="d-flex gap-3">
+                        <button class="btn btn-light btn-lg" onclick="startDiagnosis()"><i class="fas fa-stethoscope"></i> Start Diagnosis</button>
+                        <button class="btn btn-outline-light btn-lg" onclick="viewHealthReport()"><i class="fas fa-chart-line"></i> Health Report</button>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="row g-3">
+                        <div class="col-6"><div class="stat-badge"><div class="stat-number">10+</div><div>Diseases</div></div></div>
+                        <div class="col-6"><div class="stat-badge"><div class="stat-number">60+</div><div>Symptoms</div></div></div>
+                        <div class="col-6"><div class="stat-badge"><div class="stat-number">97.8%</div><div>Accuracy</div></div></div>
+                        <div class="col-6"><div class="stat-badge"><div class="stat-number">150+</div><div>Interactions</div></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- Main Dashboard Cards -->
+        <div class="row mb-5">
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="dashboard-card" onclick="navigateTo('diagnosis')">
+                    <div class="card-icon"><i class="fas fa-notes-medical"></i></div>
+                    <h3 class="card-title">Symptom Checker</h3>
+                    <p class="card-desc">AI-powered analysis of your symptoms to identify possible conditions</p>
+                    <div class="card-stats"><i class="fas fa-chart-line"></i> 97.8% accuracy</div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="dashboard-card" onclick="navigateTo('imaging')">
+                    <div class="card-icon"><i class="fas fa-camera"></i></div>
+                    <h3 class="card-title">Medical Imaging</h3>
+                    <p class="card-desc">Upload and analyze medical images for quality assessment</p>
+                    <div class="card-stats"><i class="fas fa-image"></i> Instant analysis</div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="dashboard-card" onclick="navigateTo('medications')">
+                    <div class="card-icon"><i class="fas fa-pills"></i></div>
+                    <h3 class="card-title">Medication Checker</h3>
+                    <p class="card-desc">Check dangerous drug interactions from 150+ medications</p>
+                    <div class="card-stats"><i class="fas fa-shield-alt"></i> Safety first</div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="dashboard-card" onclick="navigateTo('appointments')">
+                    <div class="card-icon"><i class="fas fa-calendar-check"></i></div>
+                    <h3 class="card-title">Appointments</h3>
+                    <p class="card-desc">Schedule and manage your doctor appointments</p>
+                    <div class="card-stats"><i class="fas fa-clock"></i> Easy booking</div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="dashboard-card" onclick="navigateTo('diseases')">
+                    <div class="card-icon"><i class="fas fa-database"></i></div>
+                    <h3 class="card-title">Disease Database</h3>
+                    <p class="card-desc">Comprehensive information on common diseases</p>
+                    <div class="card-stats"><i class="fas fa-book"></i> 10+ conditions</div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="dashboard-card" onclick="navigateTo('health')">
+                    <div class="card-icon"><i class="fas fa-heartbeat"></i></div>
+                    <h3 class="card-title">Health Checkup</h3>
+                    <p class="card-desc">Calculate BMI, BMR and get personalized recommendations</p>
+                    <div class="card-stats"><i class="fas fa-chart-simple"></i> Track wellness</div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="dashboard-card" onclick="navigateTo('history')">
+                    <div class="card-icon"><i class="fas fa-history"></i></div>
+                    <h3 class="card-title">History</h3>
+                    <p class="card-desc">View your past consultations and health records</p>
+                    <div class="card-stats"><i class="fas fa-folder"></i> All records</div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="dashboard-card" onclick="viewAdmin()">
+                    <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                    <h3 class="card-title">Analytics</h3>
+                    <p class="card-desc">View platform statistics and health trends</p>
+                    <div class="card-stats"><i class="fas fa-chart-bar"></i> Insights</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity Section -->
+        <div class="card mb-5">
+            <div class="card-header bg-white border-bottom">
+                <h5 class="mb-0"><i class="fas fa-clock"></i> Recent Activity</h5>
+            </div>
+            <div class="card-body">
+                <div id="recent-activity">
+                    <p class="text-muted text-center">Loading your recent activity...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Health Tips Section -->
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-header bg-white border-bottom">
+                        <h5 class="mb-0"><i class="fas fa-lightbulb"></i> Daily Health Tip</h5>
+                    </div>
+                    <div class="card-body">
+                        <p id="health-tip" class="mb-0">Stay hydrated! Drink at least 8 glasses of water daily for optimal health.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-header bg-white border-bottom">
+                        <h5 class="mb-0"><i class="fas fa-quote-right"></i> Medical Fact</h5>
+                    </div>
+                    <div class="card-body">
+                        <p id="medical-fact" class="mb-0">The human heart beats about 100,000 times per day.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4"><h5><i class="fas fa-stethoscope"></i> MediAI</h5><p>AI-Powered Medical Diagnosis Assistant</p></div>
+                <div class="col-md-4"><h5>Quick Links</h5><ul class="list-unstyled"><li><a href="/">Dashboard</a></li><li><a href="/static/about.html">About</a></li><li><a href="/static/privacy.html">Privacy</a></li></ul></div>
+                <div class="col-md-4"><h5>Contact</h5><p><i class="fas fa-envelope"></i> support@mediai.com</p></div>
+            </div>
+            <div class="copyright text-center"><p>&copy; 2026 MediAI. All rights reserved.</p></div>
+        </div>
+    </footer>
+
+    <script>
+        // Navigation functions
+        function navigateTo(tab) {
+            // Store the tab to open in localStorage
+            localStorage.setItem('activeTab', tab);
+            // Redirect to main app
+            window.location.href = '/';
+        }
+        
+        function startDiagnosis() {
+            navigateTo('diagnosis');
+        }
+        
+        function viewHealthReport() {
+            navigateTo('health');
+        }
+        
+        function viewAdmin() {
+            window.location.href = '/static/admin.html';
+        }
+        
+        // Load recent consultations
+        async function loadRecentActivity() {
+            try {
+                const response = await fetch('/api/consultations');
+                const data = await response.json();
+                const consultations = data.consultations || [];
+                
+                const container = document.getElementById('recent-activity');
+                if (consultations.length === 0) {
+                    container.innerHTML = '<p class="text-muted text-center">No recent activity. Start your first diagnosis!</p>';
+                    return;
+                }
+                
+                const recent = consultations.slice(-5).reverse();
+                container.innerHTML = recent.map(c => `
+                    <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-2">
+                        <div>
+                            <strong>${c.diagnosis}</strong>
+                            <small class="text-muted d-block">Symptoms: ${c.symptoms.join(', ')}</small>
+                        </div>
+                        <div class="text-end">
+                            <small class="text-muted">${new Date(c.timestamp).toLocaleDateString()}</small>
+                            <span class="badge bg-info d-block mt-1">${c.severity}</span>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading activity:', error);
+            }
+        }
+        
+        // Load medical fact
+        async function loadMedicalFact() {
+            try {
+                const response = await fetch('/api/medical-fact');
+                const data = await response.json();
+                document.getElementById('medical-fact').textContent = data.fact;
+            } catch (error) {
+                console.error('Error loading fact:', error);
+            }
+        }
+        
+        // Rotate health tips
+        const healthTips = [
+            "💧 Stay hydrated! Drink at least 8 glasses of water daily.",
+            "😴 Get 7-8 hours of sleep for optimal brain function.",
+            "🏃‍♂️ Exercise 30 minutes daily to boost heart health.",
+            "🥗 Eat a rainbow of fruits and vegetables for vitamins.",
+            "🧘‍♀️ Practice deep breathing to reduce stress.",
+            "🩸 Check your blood pressure regularly.",
+            "🍎 An apple a day provides fiber and antioxidants.",
+            "🌞 Get 15 minutes of sunlight for vitamin D."
+        ];
+        
+        let tipIndex = 0;
+        function rotateHealthTip() {
+            document.getElementById('health-tip').textContent = healthTips[tipIndex];
+            tipIndex = (tipIndex + 1) % healthTips.length;
+        }
+        
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            loadRecentActivity();
+            loadMedicalFact();
+            rotateHealthTip();
+            setInterval(rotateHealthTip, 8000);
+            setInterval(loadRecentActivity, 30000);
+        });
+    </script>
+</body>
+</html>

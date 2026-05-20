@@ -365,7 +365,7 @@ async def analyze_image(file: UploadFile = File(...)):
     return {"quality": "Good", "brightness": 128, "contrast": 75, "redness": 25}
 
 @app.get("/", response_class=HTMLResponse)
-async def serve_frontend():
+async def serve_main_app():
     try:
         with open("static/index.html", "r", encoding="utf-8") as f:
             return HTMLResponse(content=f.read())
@@ -544,3 +544,21 @@ async def admin_protected():
     </form>
     </body>
     </html>""")
+
+@app.get("/")
+async def serve_dashboard():
+    """Serve the dashboard homepage"""
+    try:
+        with open("static/dashboard.html", "r", encoding="utf-8") as f:
+            return HTMLResponse(content=f.read())
+    except:
+        return HTMLResponse(content="<h1>MediAI</h1><p>Dashboard loading...</p>")
+
+@app.get("/app")
+async def serve_main_app():
+    """Serve the main application"""
+    try:
+        with open("static/index.html", "r", encoding="utf-8") as f:
+            return HTMLResponse(content=f.read())
+    except:
+        return HTMLResponse(content="<h1>MediAI App</h1><p>Loading...</p>")
