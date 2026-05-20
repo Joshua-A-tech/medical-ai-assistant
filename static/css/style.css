@@ -747,3 +747,38 @@ body {
 .main-container {
     padding-top: 0;
 }
+
+/* Ensure navbar is visible */
+.navbar {
+    background: #ffffff !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
+}
+
+/* Make sure offcanvas is above everything */
+.offcanvas {
+    z-index: 1050 !important;
+}
+
+/* Fix body padding for fixed navbar */
+body {
+    padding-top: 70px !important;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-top: 65px !important;
+    }
+}
+
+/* Desktop tabs visible, mobile tabs hidden */
+@media (max-width: 768px) {
+    .nav-tabs.d-none.d-md-flex {
+        display: none !important;
+    }
+}
+
+@media (min-width: 769px) {
+    .nav-tabs.d-none.d-md-flex {
+        display: flex !important;
+    }
+}
