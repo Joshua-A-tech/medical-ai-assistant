@@ -605,3 +605,145 @@ body {
     background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
     transform: translateY(-2px);
 }
+
+/* ============ OFF CANVAS NAVBAR STYLES ============ */
+.navbar {
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.navbar-brand {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #0ea5e9;
+}
+
+.navbar-brand i {
+    color: #0ea5e9;
+    margin-right: 8px;
+}
+
+.navbar-toggler {
+    border: none;
+    background: #f0f9ff;
+    padding: 0.5rem 0.75rem;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+/* Offcanvas Styles */
+.offcanvas {
+    background: #ffffff;
+    width: 300px;
+}
+
+.offcanvas-header {
+    background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
+    color: white;
+    border-bottom: none;
+}
+
+.offcanvas-header .offcanvas-title {
+    color: white;
+    font-weight: 600;
+}
+
+.offcanvas-header .btn-close {
+    filter: brightness(0) invert(1);
+}
+
+.offcanvas-body {
+    padding: 1.5rem;
+}
+
+.offcanvas-body .nav-link {
+    color: #4b5563;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.offcanvas-body .nav-link:hover {
+    background: #f0f9ff;
+    color: #0ea5e9;
+}
+
+.offcanvas-body .nav-link i {
+    width: 25px;
+    margin-right: 10px;
+    color: #0ea5e9;
+}
+
+.offcanvas-body .nav-link.active {
+    background: #0ea5e9;
+    color: white;
+}
+
+.offcanvas-body .nav-link.active i {
+    color: white;
+}
+
+.offcanvas-body h6 {
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+/* Desktop navigation adjustment */
+@media (min-width: 992px) {
+    .navbar-toggler {
+        display: block;
+    }
+    
+    /* Adjust main container for fixed navbar */
+    .main-container {
+        margin-top: 0;
+        padding-top: 1rem;
+    }
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .offcanvas {
+        width: 280px;
+    }
+    
+    .offcanvas-body .nav-link {
+        padding: 0.6rem 1rem;
+    }
+}
+
+/* Animation for offcanvas */
+.offcanvas.show {
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+/* Fix for fixed navbar - add padding to body */
+body {
+    padding-top: 70px;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-top: 65px;
+    }
+}
+
+/* Main container adjustment */
+.main-container {
+    padding-top: 0;
+}

@@ -942,3 +942,63 @@ function setVh() {
 
 window.addEventListener('resize', setVh);
 setVh();
+
+// ============ OFF CANVAS NAVBAR INTEGRATION ============
+
+// Close offcanvas when clicking a link
+document.addEventListener('DOMContentLoaded', function() {
+    // Close offcanvas when any nav-link is clicked
+    const offcanvasLinks = document.querySelectorAll('.offcanvas .nav-link, .offcanvas .dropdown-item');
+    offcanvasLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            const offcanvas = bootstrap.Offcanvas.getInstance(document.getElementById('offcanvasNavbar'));
+            if (offcanvas) {
+                offcanvas.hide();
+            }
+        });
+    });
+    
+    // Handle offcanvas user authentication display
+    function updateOffcanvasUser() {
+        const token = localStorage.getItem('token');
+        const username = localStorage.getItem('username');
+        
+        const authButtons = document.getElementById('mobile-auth-buttons');
+        const userInfo = document.getElementById('mobile-user-info');
+        const usernameSpan = document.getElementById('mobile-username');
+        
+        if (token && username) {
+            if (authButtons) authButtons.style.display = 'none';
+            if (userInfo) {
+                userInfo.style.display = 'block';
+                if (usernameSpan) usernameSpan.textContent = username;
+            }
+        } else {
+            if (authButtons) authButtons.style.display = 'block';
+            if (userInfo) userInfo.style.display = 'none';
+        }
+    }
+    
+    // Call on page load
+    updateOffcanvasUser();
+    
+    // Expose function globally
+    window.updateOffcanvasUser = updateOffcanvasUser;
+});
+
+// Override logout function to update offcanvas
+const originalLogout = window.logout;
+window.logout = function() {
+    if (originalLogout) originalLogout();
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    if (window.updateOffcanvasUser) window.updateOffcanvasUser();
+    location.reload();
+};
+
+// Override showMainContent to update offcanvas
+const originalShowMainContent = window.showMainContent;
+window.showMainContent = function() {
+    if (originalShowMainContent) originalShowMainContent();
+    if (window.updateOffcanvasUser) window.updateOffcanvasUser();
+};
