@@ -2,126 +2,536 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - MediAI Subscribers</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Admin Dashboard - MediAI Medical Assistant</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .container {
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            color: #1a1a2e;
+            overflow-x: hidden;
+        }
+
+        /* Navbar - Consistent with main site */
+        .navbar {
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            padding: 1rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0ea5e9;
+            letter-spacing: -0.5px;
+        }
+
+        .navbar-brand i {
+            color: #0ea5e9;
+            margin-right: 8px;
+        }
+
+        .nav-link {
+            color: #4b5563;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            margin: 0 0.25rem;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #0ea5e9;
+            background: #f0f9ff;
+            border-radius: 8px;
+        }
+
+        /* Main Container */
+        .main-container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 2rem;
         }
-        .admin-card {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-        .card-header {
+
+        /* Admin Header */
+        .admin-header {
             background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
             color: white;
-            padding: 20px;
-            font-weight: bold;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(14,165,233,0.2);
         }
-        .stats-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+        .admin-header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .admin-header p {
+            opacity: 0.95;
+            margin-bottom: 0;
+        }
+
+        /* Stats Cards */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-color: #0ea5e9;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon i {
+            font-size: 24px;
             color: white;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
         }
-        .stats-number {
-            font-size: 2.5rem;
-            font-weight: bold;
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 0.25rem;
         }
-        table {
-            width: 100%;
+
+        .stat-label {
+            color: #6b7280;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        th {
-            background: #f8f9fa;
-            padding: 12px;
+
+        .stat-change {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
         }
-        td {
-            padding: 10px;
-            border-bottom: 1px solid #eee;
+
+        .stat-change.positive {
+            color: #10b981;
         }
-        .btn-export {
-            background: #10b981;
-            color: white;
+
+        .stat-change.negative {
+            color: #ef4444;
+        }
+
+        /* Main Card */
+        .card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            background: #ffffff;
+            border-bottom: 2px solid #f3f4f6;
+            padding: 1.25rem 1.5rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #1f2937;
+        }
+
+        .card-header i {
+            color: #0ea5e9;
+            margin-right: 8px;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: #0ea5e9;
             border: none;
-            padding: 10px 20px;
+            padding: 0.6rem 1.2rem;
+            font-weight: 500;
             border-radius: 8px;
-            cursor: pointer;
+            transition: all 0.2s ease;
         }
-        .btn-export:hover {
+
+        .btn-primary:hover {
+            background: #0284c7;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(14,165,233,0.3);
+        }
+
+        .btn-success {
+            background: #10b981;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            font-weight: 500;
+            border-radius: 8px;
+        }
+
+        .btn-success:hover {
             background: #059669;
+            transform: translateY(-2px);
         }
-        .btn-refresh {
+
+        .btn-danger {
+            background: #ef4444;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            font-weight: 500;
+            border-radius: 8px;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-outline-primary {
+            border: 1px solid #0ea5e9;
+            color: #0ea5e9;
+            background: transparent;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-outline-primary:hover {
             background: #0ea5e9;
             color: white;
+        }
+
+        /* Table */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table thead th {
+            background: #f8fafc;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #374151;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .table tbody td {
+            padding: 1rem;
+            border-bottom: 1px solid #f3f4f6;
+            vertical-align: middle;
+        }
+
+        .table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        /* Badge */
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 0.75rem;
+        }
+
+        .badge-active {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-inactive {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* Action Buttons */
+        .action-btn {
+            background: none;
             border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
             cursor: pointer;
-            margin-right: 10px;
+            padding: 0.25rem 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .action-btn.delete {
+            color: #ef4444;
+        }
+
+        .action-btn.delete:hover {
+            color: #dc2626;
+            transform: scale(1.1);
+        }
+
+        /* Footer - Consistent with main site */
+        .footer {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #ffffff;
+            padding: 2rem 0 1rem 0;
+            margin-top: 2rem;
+            border-top: 4px solid #0ea5e9;
+        }
+
+        .footer a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #0ea5e9;
+        }
+
+        .footer h5 {
+            color: #0ea5e9;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .footer .quick-links {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .footer .quick-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer .quick-links li i {
+            margin-right: 5px;
+            font-size: 10px;
+            color: #0ea5e9;
+        }
+
+        .copyright {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 1.5rem;
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 0.875rem;
+            color: #94a3b8;
+        }
+
+        /* Loading Spinner */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #0ea5e9;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Alert */
+        .alert {
+            border-radius: 10px;
+            border: none;
+            padding: 1rem;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .alert-danger {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 1rem;
+            }
+            
+            .admin-header {
+                padding: 1.5rem;
+            }
+            
+            .admin-header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .table thead {
+                display: none;
+            }
+            
+            .table tbody tr {
+                display: block;
+                margin-bottom: 1rem;
+                border: 1px solid #e5e7eb;
+                border-radius: 8px;
+            }
+            
+            .table tbody td {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0.75rem;
+                border-bottom: 1px solid #f3f4f6;
+            }
+            
+            .table tbody td:before {
+                content: attr(data-label);
+                font-weight: 600;
+                color: #374151;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .btn-group {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .btn-group button {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="admin-card">
-            <div class="card-header">
-                <h2><i class="fas fa-users"></i> Subscriber Management Dashboard</h2>
-                <p class="mb-0">Manage your newsletter subscribers</p>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-stethoscope"></i> MediAI
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/static/about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/static/admin.html">Admin</a></li>
+                </ul>
             </div>
-            <div class="card-body p-4">
-                <div class="row mb-4">
-                    <div class="col-md-3">
-                        <div class="stats-card">
-                            <div class="stats-number" id="totalCount">0</div>
-                            <div>Total Subscribers</div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="stats-card" style="background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);">
-                            <div class="stats-number" id="newCount">0</div>
-                            <div>New (Last 7 days)</div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="stats-card" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
-                            <div class="stats-number" id="activeCount">0</div>
-                            <div>Active Subscribers</div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="stats-card" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">
-                            <div class="stats-number" id="unsubCount">0</div>
-                            <div>Unsubscribed</div>
-                        </div>
-                    </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Admin Header -->
+        <div class="admin-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1><i class="fas fa-chart-line"></i> Admin Dashboard</h1>
+                    <p>Manage subscribers and monitor platform analytics</p>
                 </div>
-                
-                <div class="mb-3">
-                    <button class="btn-refresh" onclick="loadSubscribers()">
+                <div>
+                    <i class="fas fa-shield-alt fa-3x" style="opacity: 0.5;"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-number" id="totalCount">0</div>
+                <div class="stat-label">Total Subscribers</div>
+                <div class="stat-change positive" id="newCount">
+                    <i class="fas fa-arrow-up"></i> Loading...
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-calendar-week"></i>
+                </div>
+                <div class="stat-number" id="newSubscribers">0</div>
+                <div class="stat-label">New (Last 7 days)</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-chart-line"></i> Active growth
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-number" id="activeCount">0</div>
+                <div class="stat-label">Active Subscribers</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-thumbs-up"></i> All active
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="stat-number" id="conversionRate">0%</div>
+                <div class="stat-label">Conversion Rate</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-trend-up"></i> Increasing
+                </div>
+            </div>
+        </div>
+
+        <!-- Subscribers Table -->
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-list"></i> Subscriber Management
+                <div class="float-end">
+                    <button class="btn btn-sm btn-outline-primary me-2" onclick="refreshData()">
                         <i class="fas fa-sync-alt"></i> Refresh
                     </button>
-                    <button class="btn-export" onclick="exportSubscribers()">
+                    <button class="btn btn-sm btn-success me-2" onclick="exportSubscribers()">
                         <i class="fas fa-download"></i> Export CSV
                     </button>
-                    <button class="btn-export" onclick="copyEmails()" style="background: #6b7280;">
+                    <button class="btn btn-sm btn-primary" onclick="copyEmails()">
                         <i class="fas fa-copy"></i> Copy Emails
                     </button>
                 </div>
-                
-                <div style="overflow-x: auto;">
-                    <table class="table table-hover">
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -134,7 +544,9 @@
                         </thead>
                         <tbody id="subscribersTable">
                             <tr>
-                                <td colspan="6" class="text-center">Loading subscribers...</td>
+                                <td colspan="6" class="text-center py-4">
+                                    <div class="loading"></div> Loading subscribers...
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -143,7 +555,45 @@
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <h5><i class="fas fa-stethoscope"></i> MediAI</h5>
+                    <p class="small">AI-Powered Medical Diagnosis Assistant with 97.8% accuracy. Making healthcare accessible to everyone.</p>
+                </div>
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <h5>Quick Links</h5>
+                    <ul class="quick-links">
+                        <li><a href="/"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="/static/about.html"><i class="fas fa-chevron-right"></i> About</a></li>
+                        <li><a href="/static/admin.html"><i class="fas fa-chevron-right"></i> Admin Dashboard</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Contact</h5>
+                    <ul class="quick-links">
+                        <li><i class="fas fa-envelope"></i> support@mediai.com</li>
+                        <li><i class="fab fa-github"></i> github.com/Joshua-A-tech</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 MediAI - Medical Diagnosis Assistant. All rights reserved.</p>
+                <p class="small">
+                    <a href="/static/privacy.html">Privacy Policy</a> | 
+                    <a href="/static/terms.html">Terms of Service</a> | 
+                    <a href="/static/faq.html">FAQ</a> | 
+                    <a href="/static/contact.html">Contact</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        // Subscriber Management Functions
         async function loadSubscribers() {
             try {
                 const response = await fetch('/api/subscribers');
@@ -160,72 +610,106 @@
                     const now = new Date();
                     const sevenDaysAgo = new Date(now.setDate(now.getDate() - 7));
                     const newSubscribers = subscribers.filter(s => new Date(s.subscribed_at) > sevenDaysAgo);
-                    document.getElementById('newCount').textContent = newSubscribers.length;
+                    document.getElementById('newSubscribers').textContent = newSubscribers.length;
+                    document.getElementById('newCount').innerHTML = `<i class="fas fa-arrow-up"></i> ${newSubscribers.length} new this week`;
                     
+                    // Active subscribers
                     const activeSubscribers = subscribers.filter(s => s.status === 'active');
                     document.getElementById('activeCount').textContent = activeSubscribers.length;
+                    
+                    // Conversion rate (simulated)
+                    const conversionRate = total > 0 ? Math.min(Math.round((activeSubscribers.length / total) * 100), 100) : 0;
+                    document.getElementById('conversionRate').textContent = `${conversionRate}%`;
                     
                     // Build table
                     const tbody = document.getElementById('subscribersTable');
                     if (subscribers.length === 0) {
-                        tbody.innerHTML = '<tr><td colspan="6" class="text-center">No subscribers yet</td></tr>';
+                        tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4">📭 No subscribers yet. Share your newsletter!</td></tr>';
                         return;
                     }
                     
                     tbody.innerHTML = subscribers.map((sub, index) => `
                         <tr>
-                            <td>${index + 1}</td>
-                            <td><strong>${sub.email}</strong></td>
-                            <td>${sub.name || 'Anonymous'}</td>
-                            <td>${new Date(sub.subscribed_at).toLocaleString()}</td>
-                            <td><span class="badge bg-success">${sub.status}</span></td>
-                            <td>
-                                <button class="btn btn-sm btn-danger" onclick="unsubscribe('${sub.email}')">
-                                    <i class="fas fa-trash"></i> Remove
+                            <td data-label="#">${index + 1}</td>
+                            <td data-label="Email"><strong><i class="fas fa-envelope"></i> ${sub.email}</strong></td>
+                            <td data-label="Name"><i class="fas fa-user"></i> ${sub.name || 'Anonymous'}</td>
+                            <td data-label="Date"><i class="fas fa-calendar"></i> ${new Date(sub.subscribed_at).toLocaleString()}</td>
+                            <td data-label="Status"><span class="badge badge-active">${sub.status}</span></td>
+                            <td data-label="Actions">
+                                <button class="action-btn delete" onclick="removeSubscriber('${sub.email}')" title="Remove Subscriber">
+                                    <i class="fas fa-trash-alt"></i>
                                 </button>
                             </td>
                         </tr>
                     `).join('');
+                } else {
+                    console.error('Failed to load subscribers');
                 }
             } catch (error) {
                 console.error('Error loading subscribers:', error);
+                document.getElementById('subscribersTable').innerHTML = '<tr><td colspan="6" class="text-center py-4 text-danger">❌ Error loading subscribers. Please refresh.</td></tr>';
             }
         }
         
-        async function unsubscribe(email) {
+        async function removeSubscriber(email) {
             if (confirm(`Are you sure you want to remove ${email} from the subscriber list?`)) {
                 try {
-                    const response = await fetch(`/api/subscribers/${email}`, {
+                    const response = await fetch(`/api/subscribers/${encodeURIComponent(email)}`, {
                         method: 'DELETE'
                     });
                     const result = await response.json();
                     if (result.success) {
-                        alert('Subscriber removed successfully!');
+                        showNotification('Subscriber removed successfully!', 'success');
                         loadSubscribers();
                     } else {
-                        alert('Error removing subscriber');
+                        showNotification('Error removing subscriber', 'danger');
                     }
                 } catch (error) {
                     console.error('Error:', error);
+                    showNotification('Error removing subscriber', 'danger');
                 }
             }
         }
         
         async function exportSubscribers() {
             window.open('/api/subscribers/export', '_blank');
+            showNotification('Exporting subscribers...', 'success');
         }
         
         function copyEmails() {
-            const emails = Array.from(document.querySelectorAll('#subscribersTable td:first-child + td'))
-                .map(td => td.textContent.trim())
+            const emails = Array.from(document.querySelectorAll('#subscribersTable td[data-label="Email"]'))
+                .map(td => td.textContent.replace('📧', '').trim())
                 .filter(email => email && email !== 'No subscribers yet');
             
             if (emails.length > 0) {
                 navigator.clipboard.writeText(emails.join(', '));
-                alert(`${emails.length} emails copied to clipboard!`);
+                showNotification(`${emails.length} emails copied to clipboard!`, 'success');
             } else {
-                alert('No emails to copy');
+                showNotification('No emails to copy', 'warning');
             }
+        }
+        
+        function refreshData() {
+            showNotification('Refreshing data...', 'info');
+            loadSubscribers();
+        }
+        
+        function showNotification(message, type) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `alert alert-${type} position-fixed top-0 end-0 m-3`;
+            notification.style.zIndex = '9999';
+            notification.style.minWidth = '300px';
+            notification.innerHTML = `
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'danger' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
+                ${message}
+            `;
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
         }
         
         // Auto refresh every 30 seconds

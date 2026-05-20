@@ -577,3 +577,31 @@ body {
         margin-bottom: 1rem;
     }
 }
+
+/* Consistent gradient backgrounds */
+.gradient-bg {
+    background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
+}
+
+.gradient-dark {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+/* Consistent card hover effects */
+.card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    border-color: #0ea5e9;
+}
+
+/* Consistent button styles */
+.btn-gradient {
+    background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
+    color: white;
+    border: none;
+}
+
+.btn-gradient:hover {
+    background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+    transform: translateY(-2px);
+}
